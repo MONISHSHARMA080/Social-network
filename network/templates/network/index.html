@@ -2,4 +2,12 @@
 
 {% block body %}
     TODO
+
+        {% for post in posts %}
+        <div style="border: 4px solid black; border-radius: 29px;">
+            <h6 style="padding: 8px; color: orange;">{{post.owner}} said:</h6>
+            <h1 style="margin: 15px; padding: 8px; ">{{post.text}}</h1>
+        </div>
+
+        {% endfor %}
 {% endblock %}
