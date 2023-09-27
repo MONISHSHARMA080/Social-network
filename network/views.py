@@ -18,7 +18,7 @@ def new_post(request):
         text = request.POST["text"]
         p = Post(owner=request.user , text=text)
         p.save()
-        HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("index"))
     #else
     return render(request, "network/new_post.html", {"new_post":New_post()})
 
@@ -26,6 +26,7 @@ def new_post(request):
 
 
 def index(request):
+    """ this returns/renders all the post user is going to see   """
     posts = Post.objects.order_by("-date").all()
     return render(request, "network/index.html", {"posts":posts})
 
