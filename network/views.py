@@ -23,6 +23,16 @@ def new_post(request):
     return render(request, "network/new_post.html", {"new_post":New_post()})
 
 
+def profile(request,id):
+    print(id)
+    user = User.objects.get(pk=id)
+    #don't need this as name is already provides in username
+    #name = user.get_short_name()
+
+    # all post made by user
+    all_post = Post.objects.filter(owner=id)
+    posts = all_post.order_by("-date")
+    return render(request, "network/profile.html", {"user":user, "posts":posts})
 
 
 def index(request):

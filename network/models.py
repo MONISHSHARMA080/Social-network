@@ -10,6 +10,6 @@ class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,)
     date = models.DateTimeField(auto_now_add=True,)
 
+#returns what user started their tweet/text with(first word of it)
     def __str__(self):
-        m =self.text.split(" ")
-        return f" {self.owner} started with-> {m[0]}"
+        return f" {self.owner} "
