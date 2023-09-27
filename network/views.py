@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import User,Post
 
@@ -11,8 +12,21 @@ from .models import User,Post
 from .models import User
 
 
+def new_post(request):
+    pass 
+    if request.method == "POST":
+        text = request.POST["text"]
+        p = Post(owner=request.user , text=text)
+        p.save()
+        HttpResponseRedirect(reverse("index"))
+    #else
+    return render(request, "network/new_post.html", {"new_post":New_post()})
+
+
+
+
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.order_by("-date").all()
     return render(request, "network/index.html", {"posts":posts})
 
 
@@ -66,3 +80,8 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+
+class New_post(forms.Form):
+    text = forms.CharField(label="New post")
