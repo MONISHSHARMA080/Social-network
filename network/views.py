@@ -11,7 +11,7 @@ from .models import User,Post,Network
 
 from .models import User
 
-
+@login_required(login_url="/login")
 def new_post(request):
     pass 
     if request.method == "POST":
@@ -43,7 +43,7 @@ def profile(request,id):
 
     return render(request, "network/profile.html", {"user":user, "posts":posts, "check":check})
 
-
+@login_required(login_url="/login")
 def follow(request,id):
     """"this allows users to follow other user
          ; where  id is the user to follow and request if from user who made it(follower)   """
@@ -76,6 +76,16 @@ def unfollow(request, id):
   row_from_network = Network.objects.get(followers=request.user, following=to_unfollow)
   row_from_network.delete()
   return HttpResponseRedirect(reverse(index))
+
+
+def following(request):
+#1.>need to know who user follows   2.>filter each post where owner are ()multiple  
+    user = request.user
+#value_list returns a (sngle)tuple(of how many objects inside the ()  ) . wereas value returns a dict,so for sake of itereation 
+    following = Network.objects.filter(followers=user).values_list('following', flat=True)
+#here __in is sqlite3's somethin inside (,,,,,,)
+    posts = Post.objects.filter(owner__in=following).order_by("-date")
+    return render(request, "network/index.html", {"posts":posts})
 
 
 
@@ -137,6 +147,3 @@ def register(request):
         return render(request, "network/register.html")
 
 
-
-class New_post(forms.Form):
-    text = forms.CharField(label="New post")
