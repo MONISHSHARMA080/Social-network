@@ -34,11 +34,18 @@ def profile(request,id):
     # all post made by user
     all_post = Post.objects.filter(owner=id)
     posts = all_post.order_by("-date")
-    return render(request, "network/profile.html", {"user":user, "posts":posts})
+
+#seeing if user is currently following this profile owner
+    try:
+        check = Network.objects.get(following=user, followers=request.user)
+    except Network.DoesNotExist:
+        check = None
+
+    return render(request, "network/profile.html", {"user":user, "posts":posts, "check":check})
 
 
 def follow(request,id):
-    """"this allows users to folow other users  
+    """"this allows users to follow other user
          ; where  id is the user to follow and request if from user who made it(follower)   """
     # having backend auth as a user can't  follow themself->
     
@@ -61,7 +68,14 @@ def follow(request,id):
     return HttpResponseRedirect(reverse(index))
 
 
+def unfollow(request, id):
+  """"this allows users to unfollow other user  
+         ; where  id is the user to unfollow and request if from user who made it(follower)   """
 
+  to_unfollow = User.objects.get(pk=id)
+  row_from_network = Network.objects.get(followers=request.user, following=to_unfollow)
+  row_from_network.delete()
+  return HttpResponseRedirect(reverse(index))
 
 
 
