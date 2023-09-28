@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
-from .models import User,Post
+from .models import User,Post,Network
 
 
 
@@ -24,7 +24,9 @@ def new_post(request):
 
 
 def profile(request,id):
-    print(id)
+
+    #profile gets the id of the post owner
+    # and then we get the user object of the post owner 
     user = User.objects.get(pk=id)
     #don't need this as name is already provides in username
     #name = user.get_short_name()
@@ -33,6 +35,34 @@ def profile(request,id):
     all_post = Post.objects.filter(owner=id)
     posts = all_post.order_by("-date")
     return render(request, "network/profile.html", {"user":user, "posts":posts})
+
+
+def follow(request,id):
+    """"this allows users to folow other users  
+         ; where  id is the user to follow and request if from user who made it(follower)   """
+    # having backend auth as a user can't  follow themself->
+    
+    # this is the id of user to follow
+    user_to_follow = id
+    to_follow = User.objects.get(pk=id)
+    
+    # Checking  if a  connection already exists
+    existing_network = Network.objects.filter(followers=request.user, following=user_to_follow)
+    if existing_network.exists():
+        # Handle the case where the user is already following the target user
+        return HttpResponse("You are already following this user.")
+    elif to_follow.id==request.user.id:
+        return render(request, "network/can't_follow_yourself.html")
+    
+    #adding to db  -> id=>user to follow and request.user.id=>follower
+    n = Network(following = to_follow , followers= request.user)
+    n.save()
+    print( existing_network)
+    return HttpResponseRedirect(reverse(index))
+
+
+
+
 
 
 def index(request):
