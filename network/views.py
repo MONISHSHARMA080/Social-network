@@ -88,6 +88,21 @@ def following(request):
     return render(request, "network/index.html", {"posts":posts})
 
 
+def edit(request,id):
+    """returns the post to edit if sent a get request and if te request is POST(will do put when doing JS) update 
+       the post """
+    #user want  to write edit for post change -> show them this
+    if request.method == "GET":
+         post = Post.objects.get(pk=id)         
+         return render(request, "network/edit.html", {"post":post})
+    #else user submitted the change for the post so edit it
+    new_text = request.POST["edit"]
+    post = Post.objects.get(pk=id)
+    post.text = new_text
+    post.save()
+    return HttpResponseRedirect(reverse(index))
+
+
 
 def index(request):
     """ this returns/renders all the post user is going to see   """

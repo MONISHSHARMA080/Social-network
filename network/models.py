@@ -4,8 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     
-    
-    
+
     def followers_count(self):
         return self.followers.count()
 
