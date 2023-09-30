@@ -104,6 +104,10 @@ def edit(request,id):
 
 
 
+
+
+
+
 def index(request):
     """ this returns/renders all the post user is going to see   """
     posts = Post.objects.order_by("-date").all()
