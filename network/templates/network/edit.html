@@ -1,0 +1,13 @@
+{% extends "network/layout.html" %}
+{% block body %}
+
+<div style="background-color: rgb(8, 117, 109); border-radius: 36px; padding: 20px; margin: 10px;">
+    <h3 style="margin:16px;">Edit your post:</h3>
+    <form action="{% url "edit" post.id %}" method="POST" >
+        {% csrf_token %}
+      <textarea name="edit"  style="background-color: rgb(123, 227, 219); width: 99.3%; height: 190px; border: 5px solid rgb(35, 117, 109); border-radius:18px; padding:16px;">{{post.text}}</textarea>
+      <button class="btn btn-danger" style="margin: 12px; border-radius: 12px;">Submit</button>
+    </form>
+</div>  
+
+{% endblock %}
