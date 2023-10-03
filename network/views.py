@@ -6,21 +6,48 @@ from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import User,Post,Network
+#----- rest framework--------
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PostSerializer
+ 
+
+@api_view(['GET'])
+def posts_api(request):
+    """  api for getting all the posts --- designed for the index page
+api for getting all the posts --- designed for the index page  """
+    
+    # got the object/complex DataType
+    posts = Post.objects.all()
+    # Converting into Python's native DT(DataType)-->> "I think b passing into class"
+    serialized = PostSerializer(posts, many=True)
+    return Response(serialized.data)
+
+ 
+@api_view(['POST'])
+def new_post_api(request):
+    serializer = PostSerializer(owner=request.user, text=request.data.get("text"))
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data , status=status.HTTP_201_CREATED)
+    #else
+    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-from .models import User
+
+
 
 @login_required(login_url="/login")
 def new_post(request):
-    pass 
     if request.method == "POST":
         text = request.POST["text"]
         p = Post(owner=request.user , text=text)
         p.save()
         return HttpResponseRedirect(reverse("index"))
     #else
-    return render(request, "network/new_post.html", {"new_post":New_post()})
+    return render(request, "network/new_post.html")
 
 
 def profile(request,id):
@@ -67,7 +94,7 @@ def follow(request,id):
     print( existing_network)
     return HttpResponseRedirect(reverse(index))
 
-
+@login_required(login_url="/login")
 def unfollow(request, id):
   """"this allows users to unfollow other user  
          ; where  id is the user to unfollow and request if from user who made it(follower)   """
@@ -77,7 +104,7 @@ def unfollow(request, id):
   row_from_network.delete()
   return HttpResponseRedirect(reverse(index))
 
-
+@login_required(login_url="/login")
 def following(request):
 #1.>need to know who user follows   2.>filter each post where owner are ()multiple  
     user = request.user
@@ -87,7 +114,7 @@ def following(request):
     posts = Post.objects.filter(owner__in=following).order_by("-date")
     return render(request, "network/index.html", {"posts":posts})
 
-
+@login_required(login_url="/login")
 def edit(request,id):
     """returns the post to edit if sent a get request and if te request is POST(will do put when doing JS) update 
        the post """
