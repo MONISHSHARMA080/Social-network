@@ -65,6 +65,7 @@ def edit_api(request, id):
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def network_api(request):
     """ this allows users to follow other user """
