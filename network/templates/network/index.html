@@ -1,5 +1,5 @@
 {% extends "network/layout.html" %}
-
+{% load static %}
 
 
 {% block body %}
@@ -13,10 +13,14 @@
             <div style="border: 4px solid rgb(207, 207, 10); border-radius: 29px; margin-top: 16px; margin-right: 8px; margin-left: 8px; flex-direction: column;  ">
                 <h4 style="padding: 8px; color: rgb(235, 166, 38); padding: 14px;"><strong > <a style="color: rgb(184, 40, 64);" href="{% url 'profile' post.owner.id %}" >{{post.owner}}</a></strong> said:</h4>
                 <h2 style="margin: 10px; padding: 18px;  ">{{post.text}}</h2>
-                <p style=" position: relative; left: 999px ;padding: 8px; color: rgb(22, 201, 61);" >{{post.date}}</p>
+                <p style=" position: relative; left: 999px ;padding: 8px; color: rgb(165, 42, 222);" >{{post.date}}</p>
                 {% if request.user.id == post.owner.id %}
                 <a class="btn btn-danger" style="margin:12px;border-radius:12px;" href="{% url 'edit' post.id %}" >Edit </a>
                   {% endif %}
+                <span class=" btn " style="margin: 19px; display: inline-block; width: 100px; height: 40px; border: 4px solid black; text-align: center; line-height: 20px;border-radius:28px; color: rgb(184, 40, 64); ">
+                    Likes: {{ post.likes }}
+                </span>
+                
             </div>
 
             {% endfor %}

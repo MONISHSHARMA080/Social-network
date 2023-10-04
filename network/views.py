@@ -57,7 +57,7 @@ def edit_api(request, id):
          serializer = PostSerializer(post, many=False)
          # send a JSON response
          return Response(serializer.data)
-    #else
+    #else POST:
     post = Post.objects.get(pk=id)
     serializer = PostSerializer(post , data=request.data)
     if serializer.is_valid():
@@ -79,7 +79,16 @@ def network_api(request):
     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+@api_view(['POST'])
+def like_api(request):
+    """ this view handles increasing the likes in the database """
+    serializer = PostSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data , status=status.HTTP_201_CREATED)
+    #else not valid 
+    print(serializer.errors)
+    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -112,7 +121,7 @@ def profile(request,id):
 
 #seeing if user is currently following this profile owner
     try:
-        check = Network.objects.get(following=user, followers=request.user)
+        check = Network.objects.get(following=user, follower=request.user)
     except Network.DoesNotExist:
         check = None
 
@@ -129,7 +138,7 @@ def follow(request,id):
     to_follow = User.objects.get(pk=id)
     
     # Checking  if a  connection already exists
-    existing_network = Network.objects.filter(followers=request.user, following=user_to_follow)
+    existing_network = Network.objects.filter(follower=request.user, following=user_to_follow)
     if existing_network.exists():
         # Handle the case where the user is already following the target user
         return HttpResponse("You are already following this user.")
@@ -137,7 +146,7 @@ def follow(request,id):
         return render(request, "network/can't_follow_yourself.html")
     
     #adding to db  -> id=>user to follow and request.user.id=>follower
-    n = Network(following = to_follow , followers= request.user)
+    n = Network(following = to_follow , follower = request.user)
     n.save()
     print( existing_network)
     return HttpResponseRedirect(reverse(index))
@@ -148,7 +157,7 @@ def unfollow(request, id):
          ; where  id is the user to unfollow and request if from user who made it(follower)   """
 
   to_unfollow = User.objects.get(pk=id)
-  row_from_network = Network.objects.get(followers=request.user, following=to_unfollow)
+  row_from_network = Network.objects.get(follower=request.user, following=to_unfollow)
   row_from_network.delete()
   return HttpResponseRedirect(reverse(index))
 
@@ -157,7 +166,7 @@ def following(request):
 #1.>need to know who user follows   2.>filter each post where owner are ()multiple  
     user = request.user
 #value_list returns a (sngle)tuple(of how many objects inside the ()  ) . wereas value returns a dict,so for sake of itereation 
-    following = Network.objects.filter(followers=user).values_list('following', flat=True)
+    following = Network.objects.filter(follower = user).values_list('following', flat=True)
 #here __in is sqlite3's somethin inside (,,,,,,)
     posts = Post.objects.filter(owner__in=following).order_by("-date")
     return render(request, "network/index.html", {"posts":posts})
