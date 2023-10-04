@@ -10,13 +10,16 @@ from .models import User,Post,Network
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import PostSerializer
+from .serializers import PostSerializer , NetworkSerializer
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from rest_framework.decorators import parser_classes
  
 
 @api_view(['GET'])
 def posts_api(request):
     """  api for getting all the posts --- designed for the index page
-api for getting all the posts --- designed for the index page  """
+    api for getting all the posts --- designed for the index page  """
     
     # got the object/complex DataType
     posts = Post.objects.all()
@@ -24,15 +27,59 @@ api for getting all the posts --- designed for the index page  """
     serialized = PostSerializer(posts, many=True)
     return Response(serialized.data)
 
- 
+
 @api_view(['POST'])
 def new_post_api(request):
-    serializer = PostSerializer(owner=request.user, text=request.data.get("text"))
+    """ this view will allow to make a new post form  api """
+
+    serializer = PostSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data , status=status.HTTP_201_CREATED)
+    #else
+    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def profile_api(request, id ):
+    """"""
+    all_post = Post.objects.filter(owner=id)
+    posts = all_post.order_by("-date")
+    serialized = PostSerializer(posts, many=True)
+    return Response(serialized.data)    
+
+@api_view(['GET', 'POST'])
+def edit_api(request, id):
+    if request.method == "GET":
+        #retrieve the data from the database
+         post = Post.objects.get(pk=id)
+         #convert into pyhton's native data types
+         serializer = PostSerializer(post, many=False)
+         # send a JSON response
+         return Response(serializer.data)
+    #else
+    post = Post.objects.get(pk=id)
+    serializer = PostSerializer(post , data=request.data)
+    if serializer.is_valid():
+        serializer.save()    
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def network_api(request):
+    """ this allows users to follow other user """
+    
+    serializer = NetworkSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data , status=status.HTTP_201_CREATED)
     #else
+    print(serializer.errors)
     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 

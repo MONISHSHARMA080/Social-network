@@ -7,7 +7,8 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['text', 'owner']
 
-class UserSerializer(serializers.ModelSerializer):
+
+class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['', '']
+        model = Network
+        fields = ['following', 'followers']
