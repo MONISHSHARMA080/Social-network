@@ -7,6 +7,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import User,Post,Network
 #----- rest framework--------
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,6 +15,8 @@ from .serializers import PostSerializer , NetworkSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import parser_classes
+from rest_framework import generics
+
  
 
 @api_view(['GET'])
@@ -66,6 +69,32 @@ def edit_api(request, id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+@api_view(['PUT'])
+def like_api(request,id):
+    """ this view handles increasing the likes in the database """
+    print(request.data)# testing
+    post = Post.objects.get(pk=id)
+    serializer = PostSerializer(post , data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        print(serializer)
+        return Response(serializer.data , status=status.HTTP_201_CREATED)
+    #else not valid 
+    print(serializer.errors)
+    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+# trial of  class based views  
+class LIKES_API(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+
+
+
 @api_view(['POST'])
 def network_api(request):
     """ this allows users to follow other user """
@@ -78,17 +107,6 @@ def network_api(request):
     print(serializer.errors)
     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['POST'])
-def like_api(request):
-    """ this view handles increasing the likes in the database """
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data , status=status.HTTP_201_CREATED)
-    #else not valid 
-    print(serializer.errors)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 

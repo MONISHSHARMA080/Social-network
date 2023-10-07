@@ -5,7 +5,7 @@ from .models import User,Post,Network
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['text', 'owner']
+        fields = ['text', 'owner' , 'date', 'likes' ]
 
 
 class NetworkSerializer(serializers.ModelSerializer):
