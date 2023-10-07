@@ -13,11 +13,9 @@ urlpatterns = [
     path("following", views.following, name="following"),
     path("edit/<int:id>", views.edit, name="edit"),
     #------api----------
-    path("api/post", views.posts_api, name="posts"),
-    path("api/new_post", views.new_post_api, name="new_posts"),
+    path("api/post", views.Post_api.as_view(), name="likes_api"),
+    path("api/post-change/<int:pk>", views.Post_rud_api.as_view(), name="likes_rud_api"),
+    path("api/networks/<int:id>", views.Network_api.as_view(), name="network_api"),
+    path("api/networks-change/<int:pk>", views.Network_rud_api.as_view(), name="network_rud_api"),
     path("api/profile/<int:id>", views.profile_api, name="profile_api"),
-    path("api/edit/<int:id>", views.edit_api, name="edit_api"),
-    path("api/network", views.network_api, name="network_api"),
-    path("api/like/<int:id>", views.like_api, name="like_api"),
-    path("api/trial_likes", views.LIKES_API.as_view(), name="likes_api"),
 ]

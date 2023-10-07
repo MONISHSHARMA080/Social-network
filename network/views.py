@@ -16,31 +16,45 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import parser_classes
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
  
 
-@api_view(['GET'])
-def posts_api(request):
-    """  api for getting all the posts --- designed for the index page
-    api for getting all the posts --- designed for the index page  """
+#@api_view(['GET'])
+#def posts_api(request):
+#    """  api for getting all the posts --- designed for the index page
+#         api for getting all the posts --- designed for the index page  """
     
-    # got the object/complex DataType
-    posts = Post.objects.all()
-    # Converting into Python's native DT(DataType)-->> "I think b passing into class"
-    serialized = PostSerializer(posts, many=True)
-    return Response(serialized.data)
+#     got the object/complex DataType
+#    posts = Post.objects.all()
+#    Converting into Python's native DT(DataType)-->> "I think b passing into class"
+#    serialized = PostSerializer(posts, many=True)
+#    return Response(serialized.data)
 
 
-@api_view(['POST'])
-def new_post_api(request):
-    """ this view will allow to make a new post form  api """
+class Post_api(generics.ListCreateAPIView):
+    """ api view designed for making a new Post through (HTTP) post method 
+        and getting all post data eg on the home page    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(owner=request.user)
-        return Response(serializer.data , status=status.HTTP_201_CREATED)
-    #else
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
+    """ api view designed for HTTP method GET(single post) ,PUT, PATCH, DELETE (of course of a sngle post) """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+#path("api/profile/<int:id>", views.Profile_api().as_view(), name="profile_api"),
+
+######################----------##################
+
+""" API FOR  UPDATING DELEATING AND UPDATING PROFILE IS NOT BEING MADE AS WE DON'T NEED THAT  """
+
+######################----------##################
+
+# think need auth for nowing which user send the request (can do it in the index page)
+
+
 
 
 @api_view(['GET'])
@@ -51,65 +65,22 @@ def profile_api(request, id ):
     serialized = PostSerializer(posts, many=True)
     return Response(serialized.data)    
 
-@api_view(['GET', 'POST'])
-def edit_api(request, id):
-    if request.method == "GET":
-        #retrieve the data from the database
-         post = Post.objects.get(pk=id)
-         #convert into pyhton's native data types
-         serializer = PostSerializer(post, many=False)
-         # send a JSON response
-         return Response(serializer.data)
-    #else POST:
-    post = Post.objects.get(pk=id)
-    serializer = PostSerializer(post , data=request.data)
-    if serializer.is_valid():
-        serializer.save()    
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Network_api(generics.ListCreateAPIView):
+    """ this allows to make user follow other user """
+    queryset = Network.objects.all()
+    serializer_class = NetworkSerializer
+
+# something wrong here
+class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
+    """ this allows to make user follow other user """
+    queryset = Network.objects.all()
+    print(queryset)
+    serializer_class = NetworkSerializer
 
 
 
-
-@api_view(['PUT'])
-def like_api(request,id):
-    """ this view handles increasing the likes in the database """
-    print(request.data)# testing
-    post = Post.objects.get(pk=id)
-    serializer = PostSerializer(post , data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        print(serializer)
-        return Response(serializer.data , status=status.HTTP_201_CREATED)
-    #else not valid 
-    print(serializer.errors)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-
-# trial of  class based views  
-class LIKES_API(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
-
-
-
-@api_view(['POST'])
-def network_api(request):
-    """ this allows users to follow other user """
-    
-    serializer = NetworkSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data , status=status.HTTP_201_CREATED)
-    #else
-    print(serializer.errors)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
+####----------api views over-------------------######
 
 
 
@@ -139,7 +110,7 @@ def profile(request,id):
 
 #seeing if user is currently following this profile owner
     try:
-        check = Network.objects.get(following=user, follower=request.user)
+        check = Network.objects.get(following=user, follower=request.user.id)
     except Network.DoesNotExist:
         check = None
 
