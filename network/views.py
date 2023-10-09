@@ -6,6 +6,7 @@ from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import User,Post,Network
+
 #----- rest framework--------
 
 from rest_framework import status
@@ -20,16 +21,6 @@ from rest_framework.permissions import IsAuthenticated
 
  
 
-#@api_view(['GET'])
-#def posts_api(request):
-#    """  api for getting all the posts --- designed for the index page
-#         api for getting all the posts --- designed for the index page  """
-    
-#     got the object/complex DataType
-#    posts = Post.objects.all()
-#    Converting into Python's native DT(DataType)-->> "I think b passing into class"
-#    serialized = PostSerializer(posts, many=True)
-#    return Response(serialized.data)
 
 
 class Post_api(generics.ListCreateAPIView):
