@@ -18,9 +18,6 @@ urlpatterns = [
     path("api/post-change/<int:pk>", views.Post_rud_api.as_view(), name="likes_rud_api"),
     path("api/networks/<int:id>", views.Network_api.as_view(), name="network_api"),
     path("api/networks-change/<int:pk>", views.Network_rud_api.as_view(), name="network_rud_api"),
-  #  path("api/user", views.User_api, name="user_api"),
-    path("api/user/<int:pk>", views.user_posts, name="user_api"),
-    path('api/user/new/<int:pk>/', views.UserPostsAPIView.as_view(), name='user-posts-api'),
-]
+    path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

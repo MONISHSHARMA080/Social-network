@@ -11,7 +11,7 @@ from .models import User,Post,Network
 
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import PostSerializer , NetworkSerializer , UserSerializer
+from .serializers import PostSerializer , NetworkSerializer , UserSerializer 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import parser_classes
@@ -69,27 +69,7 @@ class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
 #    serializer_class = UserSerializer
 #    queryset = User.objects.all()
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def user_posts(request, pk):
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response({'error': 'User not found'}, status=404)
-
-    posts = Post.objects.filter(owner=user)
-    serializer = PostSerializer(posts, many=True)
-
-    data = {
-        'user_id': user.id,
-        'username': user.username,
-        'posts': serializer.data
-    }
-
-    return Response(data, status=200)
-    
-class UserPostsAPIView(generics.RetrieveAPIView):
+class User_api(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -100,6 +80,7 @@ class UserPostsAPIView(generics.RetrieveAPIView):
         data = serializer.data
         data['posts'] = PostSerializer(posts, many=True).data
         return Response(data, status=status.HTTP_200_OK)
+
 
 
 
