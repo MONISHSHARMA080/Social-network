@@ -48,14 +48,6 @@ class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-@api_view(['GET'])
-def profile_api(request, id ):
-    """"""
-    all_post = Post.objects.filter(owner=id)
-    posts = all_post.order_by("-date")
-    serialized = PostSerializer(posts, many=True)
-    return Response(serialized.data)    
-
 
 class Network_api(generics.ListCreateAPIView):
     """ this allows to make user follow other user """
@@ -97,6 +89,22 @@ def user_posts(request, pk):
 
     return Response(data, status=200)
     
+class UserPostsAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        user = self.get_object()
+        posts = Post.objects.filter(owner=user)
+        serializer = self.get_serializer(user)
+        data = serializer.data
+        data['posts'] = PostSerializer(posts, many=True).data
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+
+
 
 #    def get_queryset(self):
 #        return User.objects.filter(pk=self.kwargs.get('pk'))

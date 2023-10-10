@@ -34,7 +34,7 @@ class NetworkSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    posts = PostSerializer()
+    posts = PostSerializer(many=True , read_only=True)
 
     class Meta:
         model = User
