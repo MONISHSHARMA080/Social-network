@@ -18,7 +18,7 @@ from rest_framework.decorators import parser_classes
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework import permissions
  
 
 
@@ -44,9 +44,6 @@ class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
 ######################----------##################
 
 # think need auth for nowing which user send the request (can do it in the index page)
-
-
-
 
 
 class Network_api(generics.ListCreateAPIView):
@@ -82,11 +79,6 @@ class User_api(generics.RetrieveAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-
-
-
-
-
 #    def get_queryset(self):
 #        return User.objects.filter(pk=self.kwargs.get('pk'))
 
@@ -94,8 +86,6 @@ class User_api(generics.RetrieveAPIView):
 
 
 ####----------api views over-------------------######
-
-
 
 
 @login_required(login_url="/login")

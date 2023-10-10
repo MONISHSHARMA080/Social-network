@@ -1,0 +1,54 @@
+/* styles.css */
+.post-container {
+    background-color: rgb(12, 95, 95);
+    border-radius: 36px;
+    padding: 13px;
+    margin: 19px;
+  }
+  
+  .post-content {
+    border: 4px solid rgb(207, 207, 10);
+    border-radius: 29px;
+    margin-top: 16px;
+    margin-right: 8px;
+    margin-left: 8px;
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  .post-title {
+    padding: 8px;
+    color: rgb(235, 166, 38);
+    padding: 14px;
+  }
+  
+  .post-link {
+    color: rgb(184, 40, 64);
+  }
+  
+  .post-likes {
+    margin: 19px;
+    display: inline-block;
+    width: 100px;
+    height: 20px;
+    border: 4px solid black;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 28px;
+    color: rgb(184, 40, 64);
+    padding: 12px;  
+}
+  
+  .post-date {
+    margin: 19px;
+    display: inline-block;
+    width: 220px;
+    height: 20px;
+    border: 4px solid black;
+    text-align: center;
+    padding: 12px;
+    line-height: 20px;
+    border-radius: 28px;
+    color: rgb(184, 40, 64);
+  }
+  

@@ -11,6 +11,10 @@ class User(AbstractUser):
     def following_count(self):
         return self.following.count()
 
+    def __str__(self):
+        return f"{self.username}"
+
+
 class Post(models.Model):
     text =  models.CharField(blank=False, null=False, max_length=500)
     owner = models.ForeignKey(User, on_delete=models.CASCADE,)
