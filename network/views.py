@@ -26,7 +26,7 @@ from rest_framework import permissions
 class Post_api(generics.ListCreateAPIView):
     """ api view designed for making a new Post through (HTTP) post method 
         and getting all post data eg on the home page    """
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-date')
     serializer_class = PostSerializer
 
 class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):

@@ -23,9 +23,7 @@ export default function Home() {
 
   return (
     <>
-      <h1>Ora Ora Ora Ora Ora Ora</h1>
       <h1>All Posts:</h1>
-
       {data.map((post) => (
         <Post key={post.id} text={post.text} owner={post.owner} date={post.date} likes={post.likes} />
       ))}

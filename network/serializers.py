@@ -7,10 +7,22 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['text', 'owner' , 'date', 'likes' , 'id'  ]
 
+
 class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
         fields = ['following', 'follower' , 'id']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    posts = PostSerializer(many=True , read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'posts']
+
+
+
 
 #class UserSerializer(serializers.ModelSerializer):
     """ i think that this relation(primary key) will give all the posts and network associated woth the user  """
@@ -34,9 +46,3 @@ class NetworkSerializer(serializers.ModelSerializer):
 
 
 
-class UserSerializer(serializers.ModelSerializer):
-    posts = PostSerializer(many=True , read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'posts']
