@@ -8,7 +8,7 @@ export default function Post(props) {
         <h4 className="post-title">
           <strong>
             <a className="post-link" href={`{% url 'profile' ${props.owner.id} %}`}>
-              {props.owner.name} said:
+              {props.owner_name} said:
             </a>
           </strong>
         </h4>

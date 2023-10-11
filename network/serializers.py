@@ -2,10 +2,12 @@ from rest_framework import serializers
 from .models import User,Post,Network
 
 class PostSerializer(serializers.ModelSerializer):
-   
+
+    owner_name = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = Post
-        fields = ['text', 'owner' , 'date', 'likes' , 'id'  ]
+        fields = ['text', 'owner' , 'date', 'likes' , 'id' , 'owner_name'  ]
 
 
 class NetworkSerializer(serializers.ModelSerializer):
