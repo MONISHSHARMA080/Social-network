@@ -2,8 +2,15 @@ import React from 'react';
 import './styles(post).css'; 
 
 export default function Post(props) {
-  return (
-    <div className="post-container">
+
+    const apiDateString = props.date ;
+    const apiDate = new Date(apiDateString);
+    
+    // Formating the date as  "YYYY-MM-DD HH:mm:ss" format
+    const formattedDate = apiDate.toLocaleString(); // Adjust the format as needed
+    
+
+    return (
       <div className="post-content">
         <h4 className="post-title">
           <strong>
@@ -19,8 +26,7 @@ export default function Post(props) {
           </a>
         )}
         <span className="post-likes">Likes: {props.likes}</span>
-        <span className="post-date">{props.date}</span>
+        <span className="post-date">On  : {formattedDate}</span>
       </div>
-    </div>
   );
 }

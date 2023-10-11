@@ -24,9 +24,11 @@ export default function Home() {
   return (
     <>
       <h1>All Posts:</h1>
-      {data.map((post) => (
-        <Post key={post.id} text={post.text} owner={post.owner} owner_name={post.owner_name} date={post.date} likes={post.likes} />
-      ))}
+      <div className='post-container'> 
+            {data.map((post) => (
+                <Post key={post.id} text={post.text} owner={post.owner} owner_name={post.owner_name} date={post.date} likes={post.likes} />
+            ))}
+      </div>
     </>
   );
 }
