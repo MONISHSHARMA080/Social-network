@@ -7,7 +7,11 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['text', 'owner' , 'date', 'likes' , 'id' , 'owner_name'  ]
+        fields = ['text', 'owner_id' , 'date', 'likes' , 'id' , 'owner_name'  ]
+
+
+
+    
 
 
 class NetworkSerializer(serializers.ModelSerializer):
@@ -23,6 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'posts']
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['requesting_user_id'] = self.context['request'].user.id
+        return data
 
 
 
