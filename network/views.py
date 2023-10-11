@@ -66,21 +66,26 @@ class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
 #    serializer_class = UserSerializer
 #    queryset = User.objects.all()
 
+
+
 class User_api(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
+# This line retrieves the User object based on the provided user ID from the URL.-->>https://www.django-rest-framework.org/api-guide/generic-views/#get_objectself
+# however alt ways are-> def get(self, request, *args, **kwargs):
+#        my_param = request.query_params.get('my_param')   and in serilizers in charfield and this too ->
+# self.request.query_params.get('')
         user = self.get_object()
-        posts = Post.objects.filter(owner=user)
+# now we will filter posts  based on the user found in prev. line and get a relation 
+        posts = Post.objects.filter(owner=user).order_by("-date")
         serializer = self.get_serializer(user)
+# JSON representation of the user
         data = serializer.data
+# This line adds a list of serialized posts associated with the user to the data dictionary under the key 'posts'.
         data['posts'] = PostSerializer(posts, many=True).data
         return Response(data, status=status.HTTP_200_OK)
-
-
-#    def get_queryset(self):
-#        return User.objects.filter(pk=self.kwargs.get('pk'))
 
 
 
