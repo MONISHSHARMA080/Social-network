@@ -14,9 +14,10 @@ export default function Post(props) {
       <div className="post-content">
         <h4 className="post-title">
           <strong>
-            <a className="post-link" href={`{% url 'profile' ${props.owner.id} %}`}>
-              {props.owner_name} said:
+            <a className="post-link" href="${props.owner.id}" >
+              {props.owner_name}
             </a>
+             <span className='said_Post_colour' > said</span>:
           </strong>
         </h4>
         <h2 className="post-text">{props.text}</h2>

@@ -4,6 +4,9 @@ import Post from './allPosts_home';
 export default function Home() {
   const [data, setData] = useState([]);
 
+
+ // var path = window.location.pathname
+
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/post', {})
       .then((response) => {
@@ -14,7 +17,6 @@ export default function Home() {
       })
       .then((json_response) => {
         setData(json_response);
-        console.log(json_response);
       })
       .catch((err) => {
         console.error(err.message);
