@@ -45,8 +45,8 @@ export default function Post(props) {
           console.error(err.message);
         });
     }
-    
-
+// null cause it is not being send by drf
+console.log("props.requesting_user_id : " +props.requesting_user_id)
 
 // for adding like/s  api 
   useEffect(() => {
