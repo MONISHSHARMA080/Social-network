@@ -12,7 +12,7 @@ export default function Post(props) {
     const apiDate = new Date(apiDateString);
     
     // Formating the date as  "YYYY-MM-DD HH:mm:ss" format
-    const formattedDate = apiDate.toLocaleString(); // Adjust the format as needed
+    const formattedDate = apiDate.toLocaleString(); 
     
   
     function like() {
@@ -25,7 +25,7 @@ export default function Post(props) {
           "text": props.text,
           "owner_id": props.owner,
           "date": props.date,
-          "likes": likes, // Send the initial state value
+          "likes": likes, 
           "id": props.id,
           "owner_name": props.owner_name
         })
@@ -51,12 +51,14 @@ export default function Post(props) {
 // for adding like/s  api 
   useEffect(() => {
     if (number === 1){
-      console.log("HHHHHHHHHHHHHHHHHHHHHH________-------") 
-     console.log(likes)
-     console.log(props.id)
+
+      console.log(props.id)
    
     } 
 }, [number]);
+
+function edit(){}
+
 
 
 
@@ -71,11 +73,14 @@ export default function Post(props) {
           </strong>
         </h4>
         <h2 className="post-text">{props.text}</h2>
-        {props.editable && (
-          <a className="btn btn-danger" style={{ margin: '12px', borderRadius: '12px' }} href={`{% url 'edit' ${props.id} %}`}>
+        {props.requesting_user_id === props.owner ? (
+        <span>
+          <button className="button" onClick={edit}>
             Edit
-          </a>
-        )}
+          </button>
+        </span>
+      ) : null}
+        
         <span className="post-likes" onClick={like}>Likes: {likes}</span>
         <span className="post-date">On  : {formattedDate}</span>
       </div>

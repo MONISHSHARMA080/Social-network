@@ -5,7 +5,7 @@ export default function Profile() {
   const [data, setData] = useState({ posts: [] }); // Initialize data with an empty array for posts
   const [number, setNumber] = useState(0)
 
-// mae api endpoint more dynamic
+// make api endpoint more dynamic
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/user/4', {})
       .then((response) => {
@@ -80,6 +80,7 @@ export default function Profile() {
             owner_name={post.owner_name}
             date={post.date}
             likes={post.likes}
+            requesting_user_id={data.requesting_user_id}
             key={post.id}
           />
         ))}

@@ -20,7 +20,7 @@ export default function Following() {
           console.error(err.message);
         });
     }, []);
-  
+
     return (
       <>
         <h1> Following:</h1>
