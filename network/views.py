@@ -26,7 +26,8 @@ class Follow_api(generics.ListAPIView):
     
     def get_queryset(self):
 #        user = self.request.user
-        user = User.objects.get(pk=2)
+        pk = self.kwargs['pk'] 
+        user = User.objects.get(pk=pk)
         following_users = Network.objects.filter(follower=user).values_list('following', flat=True)
         posts = Post.objects.filter(owner__in=following_users).order_by('-date')
         return posts

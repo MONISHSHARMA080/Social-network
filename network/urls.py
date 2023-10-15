@@ -20,7 +20,7 @@ urlpatterns = [
     path("api/networks/", views.Network_api.as_view(), name="network_api"),
     path("api/networks-change/<int:pk>/<int:pk_user>", views.Network_rud_api.as_view(), name="network_rud_api"),
     path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),
-    path("api/network", views.Follow_api.as_view(), name="network"),
+    path("api/network/<int:pk>", views.Follow_api.as_view(), name="network"),
 
     ]
 

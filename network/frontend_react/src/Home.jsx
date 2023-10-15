@@ -4,7 +4,7 @@ import Post from './allPosts_home';
 export default function Home() {
   const [data, setData] = useState([]);
 
-  
+// here using this to get all post on home page
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/post', {})
       .then((response) => {
