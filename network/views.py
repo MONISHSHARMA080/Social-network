@@ -32,7 +32,7 @@ class Follow_api(generics.ListAPIView):
         return posts
 
 class User_api(generics.RetrieveAPIView):
-    """ will return all the post from a specific user  """
+    """ will return all the post from a specific user  and who is following the user  """
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -105,7 +105,8 @@ class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
 class Network_api(generics.ListCreateAPIView):
     """ this allows to make user follow other user """
     queryset = Network.objects.all()
-    serializer_class = NetworkSerializer
+    serializer_class = NetworkSerializer     
+
 
 # something wrong here
 class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
@@ -116,7 +117,7 @@ class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
 #        user = self.request.user
         # reteriving the user
-        pk = self.kwargs['pk']
+        pk = self.kwargs['pk'] 
         pk_user = self.kwargs['pk_user']
         follower = User.objects.get(pk=pk)
         following = User.objects.get(pk=pk_user)

@@ -3,9 +3,11 @@ import Post from './allPosts_home';
 
 export default function Profile() {
   const [data, setData] = useState({ posts: [] }); // Initialize data with an empty array for posts
+  const [number, setNumber] = useState(0)
 
+// mae api endpoint more dynamic
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/user/3', {})
+    fetch('http://127.0.0.1:8000/api/user/4', {})
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -29,8 +31,12 @@ export default function Profile() {
       },
     body: JSON.stringify({
 
-    }) //bofdy of fetch
+        "following":`${data.id}` ,
+    //make this data.requesting_user_id after auth setup
+        "follower": 2
+    //make this data.requesting_user_id after auth setup
 
+    }) //bofdy of fetch
     })
     .then((response) => {
       if (!response.ok) {
@@ -46,25 +52,35 @@ export default function Profile() {
     });
   }
 
+  // for network/follow  api 
+  useEffect(() => {
+       if (number === 1){
+        console.log(data.id)
+        network();
+       } 
+  }, [number]);
 
 
 
+
+  
 // ADD THE FOLLOW BUTTON 
 
 
   return (
     <>
       <h1 className='all_post_by' >All posts by {data.username} :</h1>
-      <button className='button' >Follow {data.username}</button>
+      <button className='button' onClick={()=>{setNumber(number + 1)}} >Follow {data.username}</button>
       <div className="post-container">
         {data.posts.map((post) => (
           <Post
-            key={post.id}
+            id={post.id}
             text={post.text}
             owner={post.owner_id}
             owner_name={post.owner_name}
             date={post.date}
             likes={post.likes}
+            key={post.id}
           />
         ))}
       </div>

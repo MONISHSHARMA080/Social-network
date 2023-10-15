@@ -8,7 +8,7 @@ export default function Post(props) {
     
     // Formating the date as  "YYYY-MM-DD HH:mm:ss" format
     const formattedDate = apiDate.toLocaleString(); // Adjust the format as needed
-    
+    console.log(props.id)
 
     return (
       <div className="post-content">
