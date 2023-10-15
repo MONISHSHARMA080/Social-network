@@ -26,7 +26,14 @@ export default function Following() {
         <h1> Following:</h1>
         <div className='post-container'> 
               {data.map((post) => (
-                  <Post key={post.id} text={post.text} owner={post.owner} owner_name={post.owner_name} date={post.date} likes={post.likes} />
+                  <Post
+                  id={post.id}
+                  text={post.text}
+                  owner={post.owner_id}
+                  owner_name={post.owner_name}
+                  date={post.date}
+                  likes={post.likes}
+                  key={post.id} />
               ))}
         </div>
       </>

@@ -27,13 +27,13 @@ export default function Home() {
       <div className='post-container'> 
             {data.map((post) => (
                           <Post
-                          key={post.id}
+                          id={post.id}
                           text={post.text}
                           owner={post.owner_id}
                           owner_name={post.owner_name}
                           date={post.date}
                           likes={post.likes}
-                          id={post.id}
+                          key={post.id}
                         />         
                           ))}
       </div>
