@@ -4,9 +4,7 @@ import Post from './allPosts_home';
 export default function Home() {
   const [data, setData] = useState([]);
 
-
- // var path = window.location.pathname
-
+  
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/post', {})
       .then((response) => {
@@ -28,8 +26,16 @@ export default function Home() {
       <h1>All Posts:</h1>
       <div className='post-container'> 
             {data.map((post) => (
-                <Post key={post.id} text={post.text} owner={post.owner} owner_name={post.owner_name} date={post.date} likes={post.likes} />
-            ))}
+                          <Post
+                          key={post.id}
+                          text={post.text}
+                          owner={post.owner_id}
+                          owner_name={post.owner_name}
+                          date={post.date}
+                          likes={post.likes}
+                          id={post.id}
+                        />         
+                          ))}
       </div>
     </>
   );

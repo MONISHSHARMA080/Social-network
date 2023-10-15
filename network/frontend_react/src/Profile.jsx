@@ -20,6 +20,34 @@ export default function Profile() {
       });
   }, []);
 
+  function network(){
+    fetch('http://127.0.0.1:8000/api/networks/', {
+
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    body: JSON.stringify({
+
+    }) //bofdy of fetch
+
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((json_response) => {
+      console.log(json_response); 
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+  }
+
+
+
 
 // ADD THE FOLLOW BUTTON 
 
@@ -27,6 +55,7 @@ export default function Profile() {
   return (
     <>
       <h1 className='all_post_by' >All posts by {data.username} :</h1>
+      <button className='button' >Follow {data.username}</button>
       <div className="post-container">
         {data.posts.map((post) => (
           <Post

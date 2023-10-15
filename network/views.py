@@ -20,7 +20,63 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
  
+class Follow_api(generics.ListAPIView):
+    """ will return the post of users following """
+    serializer_class = PostSerializer
+    
+    def get_queryset(self):
+#        user = self.request.user
+        user = User.objects.get(pk=2)
+        following_users = Network.objects.filter(follower=user).values_list('following', flat=True)
+        posts = Post.objects.filter(owner__in=following_users).order_by('-date')
+        return posts
 
+class User_api(generics.RetrieveAPIView):
+    """ will return all the post from a specific user  """
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+# This line retrieves the User object based on the provided user ID from the URL.-->>https://www.django-rest-framework.org/api-guide/generic-views/#get_objectself
+# however alt ways are-> def get(self, request, *args, **kwargs):
+#        my_param = request.query_params.get('my_param')   and in serilizers in charfield and this too ->
+# self.request.query_params.get('')
+        user = self.get_object()
+# now we will filter posts  based on the user found in prev. line and get a relation 
+        posts = Post.objects.filter(owner=user).order_by("-date")
+        network = Network.objects.filter(following=user)
+        serializer = self.get_serializer(user)
+# JSON representation of the user
+        data = serializer.data
+# This line adds a list of serialized posts associated with the user to the data dictionary under the key 'posts'.
+        data['posts'] = PostSerializer(posts, many=True).data
+        data['network'] = NetworkSerializer(network, many=True).data
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+
+
+class CreatePost(generics.CreateAPIView):
+    """
+    API view for creating a new Post using POST request.
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+#    permission_classes = [IsAuthenticated]
+
+    #def perform_create(self, serializer):
+        # Assign the owner of the post based on the currently logged-in user
+      #  serializer.save(owner=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+#        serializer.save(owner=self.request.user)
+        serializer.save(owner=User.objects.get(pk=2))
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class Post_api(generics.ListCreateAPIView):
@@ -54,8 +110,20 @@ class Network_api(generics.ListCreateAPIView):
 # something wrong here
 class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
     """ this allows to make user follow other user """
-    queryset = Network.objects.all()
     serializer_class = NetworkSerializer
+    # queryset = Network.objects.all()
+
+    def get_queryset(self):
+#        user = self.request.user
+        # reteriving the user
+        pk = self.kwargs['pk']
+        pk_user = self.kwargs['pk_user']
+        follower = User.objects.get(pk=pk)
+        following = User.objects.get(pk=pk_user)
+        return Network.objects.filter(follower= follower , following=following)
+
+    
+    
 
 #class User_api(generics.ListCreateAPIView):
     """
@@ -65,27 +133,6 @@ class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
 #    queryset = User.objects.all()  ,<<<--- old 
 #    serializer_class = UserSerializer
 #    queryset = User.objects.all()
-
-
-
-class User_api(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def retrieve(self, request, *args, **kwargs):
-# This line retrieves the User object based on the provided user ID from the URL.-->>https://www.django-rest-framework.org/api-guide/generic-views/#get_objectself
-# however alt ways are-> def get(self, request, *args, **kwargs):
-#        my_param = request.query_params.get('my_param')   and in serilizers in charfield and this too ->
-# self.request.query_params.get('')
-        user = self.get_object()
-# now we will filter posts  based on the user found in prev. line and get a relation 
-        posts = Post.objects.filter(owner=user).order_by("-date")
-        serializer = self.get_serializer(user)
-# JSON representation of the user
-        data = serializer.data
-# This line adds a list of serialized posts associated with the user to the data dictionary under the key 'posts'.
-        data['posts'] = PostSerializer(posts, many=True).data
-        return Response(data, status=status.HTTP_200_OK)
 
 
 
