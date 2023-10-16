@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
+  createRoutesFromElements,
+  Route,
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
@@ -11,41 +13,58 @@ import Following from './Following.jsx'
 import ErrorPage from './error-page.jsx' 
 import NavBar from './Navbar.jsx';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <NavBar />,
-    errorElement: <ErrorPage />,
-    children:[
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <NavBar />,
+//     errorElement: <ErrorPage />,
+//     children:[
 
-      {
-        path: "/",
-        element: <Home />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "following",
-        element: <Following />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "New-post",
-        element: <NewPost />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-        errorElement: <ErrorPage />,
-      },
-
-
+//       {
+//         path: "/",
+//         element: <Home />,
+//         errorElement: <ErrorPage />,
+//       },
+//       {
+//         path: "following",
+//         element: <Following />,
+//         errorElement: <ErrorPage />,
+//       },
+//       {
+//         path: "New-post",
+//         element: <NewPost />,
+//         errorElement: <ErrorPage />,
+//       },
+//       {
+//         path: "profile",
+//         element: <Profile />,
+//         errorElement: <ErrorPage />,
+//       },
 
 
-    ],//childern
-  }//children
+
+
+//     ],//childern
+//   }//children
   
-]);
+// ]);
+
+const router = createBrowserRouter(
+
+  createRoutesFromElements(
+    <Route     path={"/"} element={ <NavBar />} errorElement={ <ErrorPage />}  >
+      <Route  path={""} element={<Home />} errorElement={<ErrorPage /> }  />    
+      <Route  path={"following"} element={<Following /> } errorElement={<ErrorPage />}  />
+      <Route  path={"New-post"} element={<NewPost /> } errorElement={<ErrorPage />}  />
+      <Route  path={"profile"} element={<Profile />} errorElement={<ErrorPage />}  />
+    </Route>
+  )
+
+)
+
+
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

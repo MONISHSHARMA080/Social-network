@@ -5,7 +5,7 @@ import { Outlet, Link } from "react-router-dom";
 
 export default function NavBar({ user }) {
   return (<>
-    <nav className="navbar navbar-expand-lg navbar-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-">
       <span
         className="navbar-brand"
         style={{
@@ -21,7 +21,7 @@ export default function NavBar({ user }) {
       <div>
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/">All Posts</Link>  
+            <Link className="nav-link  " to="/">All Posts</Link>  
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/following">Following</Link>

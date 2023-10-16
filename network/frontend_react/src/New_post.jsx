@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function NewPost(){
 
@@ -59,7 +61,7 @@ return (<>
                         }}
                         style={{ width: "100%" }} ></textarea>            
                </div>
-                <button type="submit">Post</button>
+                <button className='btn btn-danger rounded-pill w-25 ' type="submit">Post</button>
             </form>
         </div>
     </div>
