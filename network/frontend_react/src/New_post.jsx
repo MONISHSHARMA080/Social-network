@@ -39,14 +39,26 @@ return (<>
  
     <h1 className='said_Post_colour' >Make a post:</h1>
 
-    <div className="container">
-        <div className="card">
+    <div className="container-n">
+        <div className="card-n">
             <h1>Add a New Post</h1>
             <form action="" method="post" onSubmit={(e)=>{e.preventDefault();setNumber(number+1)}} >
 
-                <div className="form-group">
-                    <textarea className="form-control rounded" id="text" name="text" rows="17" column="10" placeholder="Write your post here..." value={text} required onChange={(e) => {setText(e.target.value)}} ></textarea>
-                </div>
+                <div className="form-group-n">
+                <textarea
+                        className="form-control rounded"
+                        id="text"
+                        name="text"
+                        rows="17"
+                        column="10" 
+                        placeholder="Write your post here..."
+                        value={text}
+                        required
+                        onChange={(e) => {
+                            setText(e.target.value);
+                        }}
+                        style={{ width: "100%" }} ></textarea>            
+               </div>
                 <button type="submit">Post</button>
             </form>
         </div>

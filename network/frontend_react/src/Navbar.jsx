@@ -26,12 +26,12 @@ export default function NavBar({ user }) {
           <li className="nav-item">
             <Link className="nav-link" to="/following">Following</Link>
           </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/logout">Log Out</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/new_post">New post</a>
-              </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="New-post">New post</Link>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/logout">Log Out</a>
+          </li>
               <li className="nav-item">
                 <a className="nav-link" href="/login">Log In</a>
               </li>

@@ -28,6 +28,16 @@ const router = createBrowserRouter([
         element: <Following />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "New-post",
+        element: <NewPost />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        errorElement: <ErrorPage />,
+      },
 
 
 
