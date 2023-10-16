@@ -7,7 +7,7 @@
   }
   
   .post-content {
-    border: 4px solid rgb(207, 207, 10);
+    border: 4px solid rgb(211, 199, 27);
     border-radius: 29px;
     margin-top: 22px;
     margin-left: 15px;
@@ -18,7 +18,7 @@
   
   .post-title {
     padding: 8px;
-    color: rgb(235, 166, 38);
+    color: rgb(211, 199, 27);
     padding: 14px;
   }
   
@@ -33,10 +33,10 @@
     height: 16px;
     border: 4px solid black;
     text-align: center;
-    line-height: 20px;
+    line-height: 3px;
     border-radius: 28px;
     color: rgb(184, 40, 64);
-    padding: 12px;  
+    padding: 16px;  
 }
   
   .post-date {
@@ -46,8 +46,8 @@
     height: 16px;
     border: 4px solid black;
     text-align: center;
-    padding: 12px;
-    line-height: 20px;
+    padding: 15px;
+    line-height: 3px;
     border-radius: 28px;
     color: #b82840;
   }

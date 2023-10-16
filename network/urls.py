@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -21,6 +23,9 @@ urlpatterns = [
     path("api/networks-change/<int:pk>/<int:pk_user>", views.Network_rud_api.as_view(), name="network_rud_api"),
     path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),
     path("api/network/<int:pk>", views.Follow_api.as_view(), name="network"),
+          #---api--JWT--
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     ]
 
