@@ -30,14 +30,14 @@ export default function NavBar({ user }) {
             <Link className="nav-link" to="New-post">New post</Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to="/login">Log In</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/register">Register</Link>
+          </li>
+          <li className="nav-item">
             <a className="nav-link" href="/logout">Log Out</a>
           </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/login">Log In</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/register">Register</a>
-              </li>
         </ul>
       </div>
     </nav>

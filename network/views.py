@@ -21,7 +21,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
  
 class Follow_api(generics.ListAPIView):
-    """ will return the post of users following """
+    """ will return the post of all the  following users """
     serializer_class = PostSerializer
     
     def get_queryset(self):
@@ -106,8 +106,36 @@ class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
 class Network_api(generics.ListCreateAPIView):
     """ this allows to make user follow other user """
     queryset = Network.objects.all()
-    serializer_class = NetworkSerializer     
+    serializer_class = NetworkSerializer
 
+    def create(self, request, *args, **kwargs):
+        following_id = request.data.get('following')
+        follower_id = request.data.get('follower')
+        network = Network.objects.filter(follower=follower_id , following=following_id)
+
+        # Check if the entry already exists        
+        network = Network.objects.filter(follower=follower_id, following=following_id).first()
+
+        if network is not None:
+            # If the network relationship already exists, return an error
+            return Response({"detail": "You are already following this user."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # If the network relationship does not exist, create a new one
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+# def create(self, validated_data):
+#     return User.objects.create(
+#         username=validated_data['username'],
+#         email=validated_data['email'],
+#         is_premium_member=validated_data['profile']['is_premium_member'],
+#         has_support_contract=validated_data['profile']['has_support_contract']
+#     )
 
 # something wrong here
 class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):

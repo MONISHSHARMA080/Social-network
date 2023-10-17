@@ -12,6 +12,8 @@ import NewPost from './New_post.jsx'
 import Following from './Following.jsx' 
 import ErrorPage from './error-page.jsx' 
 import NavBar from './Navbar.jsx';
+import Login from './login.jsx';
+import Register from './register.jsx';
 
 // const router = createBrowserRouter([
 //   {
@@ -52,11 +54,13 @@ import NavBar from './Navbar.jsx';
 const router = createBrowserRouter(
 
   createRoutesFromElements(
-    <Route     path={"/"} element={ <NavBar />} errorElement={ <ErrorPage />}  >
+    <Route  path={"/"} element={ <NavBar />} errorElement={ <ErrorPage />}  >
         <Route  path={""} element={<Home />} errorElement={<ErrorPage /> }  />    
         <Route  path={"following"} element={<Following /> } errorElement={<ErrorPage />}  />
         <Route  path={"New-post"} element={<NewPost /> } errorElement={<ErrorPage />}  />
         <Route  path={"profile/:id"} element={<Profile />} errorElement={<ErrorPage />}  />
+        <Route  path="login" element={<Login />} />
+        <Route  path="register" element={<Register />} />
     </Route>
     
   )

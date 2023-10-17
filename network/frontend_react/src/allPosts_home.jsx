@@ -48,7 +48,6 @@ export default function Post(props) {
     }
 // null cause it is not being send by drf
 console.log("props.requesting_user_id : " +props.requesting_user_id)
-console.log ("Owners id : " +props.owner)
 
 // for adding like/s  api 
   useEffect(() => {
@@ -68,7 +67,7 @@ function edit(){}
       <div className="post-content">
         <h4 className="post-title">
           <strong>
-            <Link className="post-link" to={`profile/${props.owner}`} >
+            <Link className="post-link"   to={`profile/${props.owner}`} >
               {props.owner_name}
             </Link>
              <span className='said_Post_colour' > said</span>:
@@ -84,7 +83,7 @@ function edit(){}
       ) : null}
         
         <span className="post-likes" onClick={like}>Likes: {likes}</span>
-        <span className="post-date">On  : {formattedDate}</span>
+        <span className="post-date">On : {formattedDate}</span>
       </div>
   );
 }
