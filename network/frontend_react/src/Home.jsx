@@ -23,7 +23,8 @@ export default function Home() {
 
   return (
     <>
-      <h1>All Posts:</h1>
+     <h1 className="text-5xl font-bold m-6 p-4 flex-shrink  text-amber-500 ">All Posts:</h1>
+
       <div className='post-container'> 
             {data.map((post) => (
                           <Post

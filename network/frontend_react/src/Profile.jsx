@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Post from './allPosts_home';
+import { useParams } from 'react-router-dom';
 
 export default function Profile() {
   const [data, setData] = useState({ posts: [] }); // Initialize data with an empty array for posts
   const [number, setNumber] = useState(0)
+  const { id } = useParams();// from react router -- to fetc the user's data (in useEffect)
 
 // make api endpoint more dynamic
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/user/4', {})
+    fetch(`http://127.0.0.1:8000/api/user/${id}`, {})
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -69,8 +71,8 @@ export default function Profile() {
 
   return (
     <>
-      <h1 className='all_post_by' >All posts by {data.username} :</h1>
-      <button className='button' onClick={()=>{setNumber(number + 1)}} >Follow {data.username}</button>
+      <h1 className='text-5xl font-bold m-6 p-4 flex-shrink  text-amber-500' >All posts by {data.username} :</h1>
+      <button className='button-n' onClick={()=>{setNumber(number + 1)}} >Follow {data.username}</button>
       <div className="post-container">
         {data.posts.map((post) => (
           <Post

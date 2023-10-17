@@ -1,4 +1,10 @@
 /* styles.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 .post-container {
     background-color: rgb(12, 95, 95);
     border-radius: 36px;
@@ -9,9 +15,10 @@
   .post-content {
     border: 4px solid rgb(211, 199, 27);
     border-radius: 29px;
-    margin-top: 22px;
+    margin-top: 19px;
     margin-left: 15px;
     margin-right: 15px;
+    margin-bottom: 19px;
     flex-direction: column;
     padding: 16px;
   }
@@ -97,11 +104,11 @@ textarea {
   border: 3px solid #ccc;
 }
 
-button {
+.button-n {
   background-color: #dc3545;
   color: #fff;
   border: none;
-  border-radius: 16px;
+  border-radius: 19px;
   padding: 0.5rem 3.4rem;
   cursor: pointer;
 }

@@ -53,11 +53,12 @@ const router = createBrowserRouter(
 
   createRoutesFromElements(
     <Route     path={"/"} element={ <NavBar />} errorElement={ <ErrorPage />}  >
-      <Route  path={""} element={<Home />} errorElement={<ErrorPage /> }  />    
-      <Route  path={"following"} element={<Following /> } errorElement={<ErrorPage />}  />
-      <Route  path={"New-post"} element={<NewPost /> } errorElement={<ErrorPage />}  />
-      <Route  path={"profile"} element={<Profile />} errorElement={<ErrorPage />}  />
+        <Route  path={""} element={<Home />} errorElement={<ErrorPage /> }  />    
+        <Route  path={"following"} element={<Following /> } errorElement={<ErrorPage />}  />
+        <Route  path={"New-post"} element={<NewPost /> } errorElement={<ErrorPage />}  />
+        <Route  path={"profile/:id"} element={<Profile />} errorElement={<ErrorPage />}  />
     </Route>
+    
   )
 
 )

@@ -23,7 +23,7 @@ export default function Following() {
 
     return (
       <>
-        <h1> Following:</h1>
+        <h1 className='text-5xl font-bold m-6 p-4 flex-shrink  text-amber-500' > Following:</h1>
         <div className='post-container'> 
               {data.map((post) => (
                   <Post

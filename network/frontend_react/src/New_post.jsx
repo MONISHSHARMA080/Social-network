@@ -39,7 +39,7 @@ function api_call(){
 
 return (<>
  
-    <h1 className='said_Post_colour' >Make a post:</h1>
+    <h1 className='text-5xl font-bold m-6 p-4 flex-shrink  text-amber-500' >Make a post:</h1>
 
     <div className="container-n">
         <div className="card-n">

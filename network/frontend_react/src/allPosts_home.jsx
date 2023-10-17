@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles(post).css'; 
 import  { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Post(props) {
 
@@ -47,6 +48,7 @@ export default function Post(props) {
     }
 // null cause it is not being send by drf
 console.log("props.requesting_user_id : " +props.requesting_user_id)
+console.log ("Owners id : " +props.owner)
 
 // for adding like/s  api 
   useEffect(() => {
@@ -66,9 +68,9 @@ function edit(){}
       <div className="post-content">
         <h4 className="post-title">
           <strong>
-            <a className="post-link" href="${props.owner.id}" >
+            <Link className="post-link" to={`profile/${props.owner}`} >
               {props.owner_name}
-            </a>
+            </Link>
              <span className='said_Post_colour' > said</span>:
           </strong>
         </h4>
