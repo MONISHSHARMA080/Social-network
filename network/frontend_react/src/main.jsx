@@ -45,7 +45,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 // ]);
 
 const router = createBrowserRouter(
-// make profile id dynamic on following 
+// make profile id dynamic on following -->>https://reactrouter.com/en/main/router-components/browser-router#basename
 createRoutesFromElements(
   <Route path="/" element={
     <NavBar />

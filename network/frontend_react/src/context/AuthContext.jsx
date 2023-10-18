@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
-import { useHistory } from 'react';
+import { redirect } from "react-router-dom";
+
 
 const AuthContext = createContext();
 
@@ -30,11 +31,15 @@ export const AuthProvider = ({ children }) => {
       .then((response) => {
         let data = response.json();
         if (response.status === 200) {
-          setAuthTokens(data);
-          setUser(jwt_decode(data.access));
-          console.log(user);
+          setAuthToken(data);
+          try {
+            setUser(jwt_decode(data.access));
+          } catch (error) {
+            console.error('Error decoding token:', error);
+          }
+          console.log("hhhhh"+user);
           localStorage.setItem('authTokens', JSON.stringify(data));
-          history.push('/');
+          return redirect('/');
         }
         // Remove it in a production environment
         else {
