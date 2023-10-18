@@ -3,11 +3,10 @@ import Post from './allPosts_home';
 import { useParams } from 'react-router-dom';
 
 export default function Profile() {
-  const [data, setData] = useState({ posts: [] }); // Initialize data with an empty array for posts
+  const [data, setData] = useState({ posts: [] }); // Initializing data with an empty array for posts
   const [number, setNumber] = useState(0)
-  const { id } = useParams();// from react router -- to fetc the user's data (in useEffect)
+  const { id } = useParams();  // from react router -- to fetch the user's data (in useEffect)
 
-// make api endpoint more dynamic
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/user/${id}`, {})
       .then((response) => {

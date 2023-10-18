@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
+// rm hardcoding of the value in views.py--CreatePost and make a new query param.   
+
+
 export default function NewPost(){
 
 const [text, setText] = useState('');

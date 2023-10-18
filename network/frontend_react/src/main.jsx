@@ -1,11 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  createRoutesFromElements,
-  Route,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import {createRoutesFromElements,Route,createBrowserRouter,RouterProvider,} from "react-router-dom";
 import Home from './Home.jsx'
 import Profile from './Profile.jsx'
 import NewPost from './New_post.jsx'
@@ -14,6 +9,8 @@ import ErrorPage from './error-page.jsx'
 import NavBar from './Navbar.jsx';
 import Login from './login.jsx';
 import Register from './register.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+
 
 // const router = createBrowserRouter([
 //   {
@@ -43,39 +40,33 @@ import Register from './register.jsx';
 //         errorElement: <ErrorPage />,
 //       },
 
-
-
-
 //     ],//childern
-//   }//children
-  
+//   }//children  
 // ]);
 
 const router = createBrowserRouter(
-
-  createRoutesFromElements(
-    <Route  path={"/"} element={ <NavBar />} errorElement={ <ErrorPage />}  >
-        <Route  path={""} element={<Home />} errorElement={<ErrorPage /> }  />    
-        <Route  path={"following"} element={<Following /> } errorElement={<ErrorPage />}  />
-        <Route  path={"New-post"} element={<NewPost /> } errorElement={<ErrorPage />}  />
-        <Route  path={"profile/:id"} element={<Profile />} errorElement={<ErrorPage />}  />
-        <Route  path="login" element={<Login />} />
-        <Route  path="register" element={<Register />} />
-    </Route>
-    
-  )
-
+// make profile id dynamic on following 
+createRoutesFromElements(
+  <Route path="/" element={
+    <NavBar />
+  }>
+    <Route path="/" element={<Home />} />
+    <Route path="following" element={<Following />} />
+    <Route path="New-post" element={<NewPost />} />
+    <Route path="profile/:id" element={<Profile />} exact />
+    <Route path="login" element={<Login />} />
+    <Route path="register" element={<Register />} />
+  </Route>
 )
-
-
-
-
+);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+<React.StrictMode>
+  <AuthProvider>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </AuthProvider>
+</React.StrictMode>,
+);
 // Learning react router NOTES 
 // (1.> when making childrens (component that are  updating on the screen and and other are constant) for eg. navHedder is const and element ui(etc.(lie post and new post)) is child  
 //        how to do it---------->>>>> 

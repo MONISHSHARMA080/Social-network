@@ -4,9 +4,9 @@ import Post from './allPosts_home';
 export default function Following() {
     const [data, setData] = useState([]);
   
-// make this endpoint dynamic
+// make this endpoint dynamic --api returns app posts from the  user which {/2 (eg)} is following---get {2} from JWT etc
     useEffect(() => {
-      fetch('http://127.0.0.1:8000/api/network/2', {})
+      fetch('http://127.0.0.1:8000/api/network/3', {})
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
