@@ -1,68 +1,60 @@
-import { createContext, useState, useEffect } from 'react'
-import jwt_decode from "jwt-decode";
-import { useHistory } from 'react'
+import { createContext, useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
+import { useHistory } from 'react';
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export default AuthContext;
 
+export const AuthProvider = ({ children }) => {
+  let [authToken, setAuthToken] = useState(null);
+  // For storing decoded data from auth token
+  let [user, setUser] = useState(null);
 
-export const AuthProvider = ({children}) => {
+  // Function to log the user in -- here (context API) to store/pass in other components
+  const Login = (e) => {
+    console.log('Login function initiated');
+    e.preventDefault();
+    var username = e.target.username.value;
+    var password = e.target.password.value;
+    fetch('http://localhost:8000/api/token/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Setting the content type to JSON
+      },
+      body: JSON.stringify({
+        username: `${username}`,
+        password: `${password}`,
+      }), // body of fetch
+    }) // fetch
+      .then((response) => {
+        let data = response.json();
+        if (response.status === 200) {
+          setAuthTokens(data);
+          setUser(jwt_decode(data.access));
+          console.log(user);
+          localStorage.setItem('authTokens', JSON.stringify(data));
+          history.push('/');
+        }
+        // Remove it in a production environment
+        else {
+          alert('Something went wrong!');
+        }
+      }) // response
+      .then((result) => {
+        // Print result
+        console.log(result);
+      }); // then end
+  }; // Close Login function
 
-    let [authToken ,setAuthToken] = useState(null)
-    //for storing decoded data from auth token
-    let [user ,setUser] = useState(null)
-  
-    // function to log the user in --here(context api) to store/pass in other components 
-    const Login = () => {
-        const handleSubmit = (e) => {
-          e.preventDefault();
-          var username = e.target.username.value;
-          var password = e.target.password.value;
-          fetch('http://localhost:8000/api/token/',{
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json' // Setting the content type to JSON
-              },
-            body: JSON.stringify({
-     
-                "username": `${username}`,
-                "password": `${password}`
-                    
-            }) // body of fetch
-          }) // fetch
-          .then(response => {
-            let data = response.json()
-            if(response.status === 200){
-                setAuthTokens(data)
-                setUser(jwt_decode(data.access))
-                localStorage.setItem('authTokens', JSON.stringify(data))
-                history.push('/')
-            }
-            //remove it in production environment
-            else{
-                alert('Something went wrong!')
-            }
-          }) // response
-          .then(result => {
-             // Print result
-             console.log(result);
-           }) // fetch end
-        } // Close Login function
-    } // Close AuthProvider function
-  
-    var contextData = {
-        user:user,
-        // authTokens:authTokens,
-        // // loginUser:loginUser,
-        // logoutUser:logoutUser,
-    }
-  
-    return (
-        <AuthContext.Provider value={contextData} >
-          { children}
-        </AuthContext.Provider>
-    )  
-  }
-  
-  
+  var contextData = {
+    user: user,
+    "Login": Login,
+  };
+
+  return (
+    <AuthContext.Provider value={contextData}>
+      {children}
+    </AuthContext.Provider>
+  );
+}; // Close AuthProvider function

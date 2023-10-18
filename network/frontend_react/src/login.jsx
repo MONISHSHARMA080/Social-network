@@ -5,7 +5,8 @@ import AuthContext from './context/AuthContext';
 
 export default function Login(){
 
-  let {Login} = useContext(AuthContext)
+  let {Login , user} = useContext(AuthContext)
+  
   return (
     <div>
       <h2 className='m-4'>Login</h2>
