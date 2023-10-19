@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
 
-export default function Login(){
 
-  let {Login , user} = useContext(AuthContext)
-  console.log(user)
+
+export default function Login(){
+  
+  
+  var {loginUser , user} = useContext(AuthContext)
+  
+
+  
+  
   return (
     <div>
       <h2 className='m-4'>Login</h2>
 
-      <form className='w-11/12' onSubmit={Login}>
+      <form className='w-11/12' onSubmit={loginUser}>
         <div className="form-group">
           <input
             autoFocus

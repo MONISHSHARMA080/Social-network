@@ -11,14 +11,19 @@ export const AuthProvider = ({ children }) => {
   let [authToken, setAuthToken] = useState(null);
   // For storing decoded data from auth token
   let [user, setUser] = useState(null);
+  useEffect(() => {
+  
+    console.log("user from useEffect : "+user)
+    }, [user]);
+    
 
   // Function to log the user in -- here (context API) to store/pass in other components
-  const Login = (e) => {
+  const loginUser = (e) => {
     console.log('Login function initiated');
     e.preventDefault();
     var username = e.target.username.value;
     var password = e.target.password.value;
-    fetch('http://localhost:8000/api/token/', {
+    fetch('http://127.0.0.1:8000/api/token/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Setting the content type to JSON
@@ -35,7 +40,7 @@ export const AuthProvider = ({ children }) => {
           try {
             setUser(jwt_decode(data.access));
           } catch (error) {
-            console.error('Error decoding token:', error);
+            console.error('Error decoding token:', error.message); // Log the error message
           }
           console.log("hhhhh"+user);
           localStorage.setItem('authTokens', JSON.stringify(data));
@@ -46,6 +51,7 @@ export const AuthProvider = ({ children }) => {
           alert('Something went wrong!');
         }
       }) // response
+      
       .then((result) => {
         // Print result
         console.log(result);
@@ -53,8 +59,8 @@ export const AuthProvider = ({ children }) => {
   }; // Close Login function
 
   var contextData = {
-    user: user,
-    "Login": Login,
+    "user": user,
+    "loginUser": loginUser,
   };
 
   return (
