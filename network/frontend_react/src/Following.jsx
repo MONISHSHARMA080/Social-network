@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Post from './allPosts_home';
+import { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 export default function Following() {
     const [data, setData] = useState([]);
   
-// make this endpoint dynamic --api returns app posts from the  user which {/2 (eg)} is following---get {2} from JWT etc
+    const {user} = useContext(AuthContext)
+
     useEffect(() => {
-      fetch('http://127.0.0.1:8000/api/network/3', {})
+      fetch(`http://127.0.0.1:8000/api/network/${user.user_id}`, {})
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);

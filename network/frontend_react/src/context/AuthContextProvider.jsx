@@ -1,22 +1,27 @@
 import React , {useEffect, useState,} from "react";
 import AuthContext from "./AuthContext";
 import jwt_decode from "jwt-decode";
+import { redirect } from "react-router-dom";
+
+
 
 
 const AuthContextProvider = ({children})=>{
     let [authTokens, setAuthTokens] = useState(null)
-    let [user, setUser] = useState(null)
+    let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
+    
+    // for testing only 
     useEffect(() => {
-       console.log("authtokens : "+authTokens);
+       if (user!=null){
        console.log("here comes the user---");
-       console.log(  user)
+       console.log(  user.username)
+    }
 
-
-      }, [authTokens,user]);
-
-
-    async function loguserin(e) {
+      }, [authTokens,user]);// useEffect
+        
+      
+      async function loguserin(e) {
         e.preventDefault(); // Prevent the default form submission behavior
         
         var username = e.target.username.value;
@@ -36,13 +41,14 @@ const AuthContextProvider = ({children})=>{
     
           if (response.status === 200) {
             const data = await response.json();
-            setAuthTokens(jwt_decode(data.access))
-            setUser(jwt_decode(data.access).username)
-
-
+            setAuthTokens(data.access)
+            setUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+            //   redirecting the users
+            return redirect("/");
             //for testing
-            console.log("access : "+data.access);
-            console.log("access : "+data.access);
+            // console.log("access : "+data.access);
+            // console.log("access : "+data.access);
           } 
           else {
             const data = await response.json(); // Parse the response even if it's not a success status
@@ -56,8 +62,13 @@ const AuthContextProvider = ({children})=>{
         }// end of catch error
       } // end of loguserin
 
-
-
+// Logout function
+      let logoutUser = () => {
+        setAuthTokens(null)
+        setUser(null)
+        localStorage.removeItem('authTokens')
+        history.push('/login')
+    }
 
 
 
@@ -73,6 +84,8 @@ const AuthContextProvider = ({children})=>{
 //context/value same thing used to pass the in different object 
  var contextData={
      "loguserin":loguserin,
+     "user":user,
+     "authTokens":authTokens
 
  } // contextData
 
