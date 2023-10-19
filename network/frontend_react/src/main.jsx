@@ -9,7 +9,7 @@ import ErrorPage from './error-page.jsx'
 import NavBar from './Navbar.jsx';
 import Login from './login.jsx';
 import Register from './register.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
+import AuthContextProvider from './context/AuthContextProvider.jsx';
 
 
 // const router = createBrowserRouter([
@@ -62,12 +62,25 @@ createRoutesFromElements(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <React.StrictMode>
-  <AuthProvider>
+   <AuthContextProvider> 
     <RouterProvider router={router} />
-  </AuthProvider>
+   </ AuthContextProvider> 
 </React.StrictMode>,
 );
-// Learning react router NOTES 
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------Learning react router NOTES (for me)------------------------
+
 // (1.> when making childrens (component that are  updating on the screen and and other are constant) for eg. navHedder is const and element ui(etc.(lie post and new post)) is child  
 //        how to do it---------->>>>> 
 // const router = createBrowserRouter([

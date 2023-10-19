@@ -2,22 +2,22 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
+// import AuthContext from './context/AuthContext';
 
 
 
-export default function Login(){
-  
-  
-  var {loginUser , user} = useContext(AuthContext)
-  
+export default function Login() {
+    
+    const {loguserin} = useContext(AuthContext)
 
-  
-  
+
+
+
   return (
     <div>
       <h2 className='m-4'>Login</h2>
 
-      <form className='w-11/12' onSubmit={loginUser}>
+      <form className='w-11/12' onSubmit={(e) => loguserin(e)}>
         <div className="form-group">
           <input
             autoFocus
@@ -43,5 +43,4 @@ export default function Login(){
       </h4>
     </div>
   );
-;
-  }
+}
