@@ -4,15 +4,19 @@ import { Outlet, Link } from "react-router-dom";
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
 import './styles(post).css';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 export default function NavBar() {
+
+  const navigate = useNavigate();
 
   const {logoutUser} = useContext(AuthContext)
   function logout(){
     console.log("logout-----");
     logoutUser();
-    return redirect("/login");
+    // Redirect to the New-post path.
+    navigate("/New-post");
   }
 
   return (<>
