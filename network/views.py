@@ -23,11 +23,16 @@ from rest_framework import permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-
-#--------Djnago jwt(simple)
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+######################----------##################
+
+""" API FOR  UPDATING DELEATING AND UPDATING PROFILE IS NOT BEING MADE AS WE DON'T NEED THAT  """
+
+######################----------##################
+
+#--------Djnago jwt(simple)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -48,7 +53,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 
-
+@permission_classes([IsAuthenticated])
 class Follow_api(generics.ListAPIView):
     """ will return the post of all the  following users """
     serializer_class = PostSerializer
@@ -82,7 +87,7 @@ class User_api(generics.RetrieveAPIView):
         
 # now we will filter posts  based on the user found in prev. line and get a relation 
         posts = Post.objects.filter(owner=user).order_by("-date")
-        network = Network.objects.filter(following=user  )
+        network = Network.objects.filter(following=user )
         serializer = self.get_serializer(user)
 # JSON representation of the user
         data = serializer.data
@@ -92,21 +97,13 @@ class User_api(generics.RetrieveAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-
-
-
-
+@permission_classes([IsAuthenticated])
 class CreatePost(generics.CreateAPIView):
     """
     API view for creating a new Post using POST request.
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-#    permission_classes = [IsAuthenticated]
-
-    #def perform_create(self, serializer):
-        # Assign the owner of the post based on the currently logged-in user
-      #  serializer.save(owner=self.request.user)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -123,23 +120,15 @@ class Post_api(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-date')
     serializer_class = PostSerializer
 
+@permission_classes([IsAuthenticated])
 class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
     """ api view designed for HTTP method GET(single post) ,PUT, PATCH, DELETE (of course of a sngle post) """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
-#path("api/profile/<int:id>", views.Profile_api().as_view(), name="profile_api"),
 
-######################----------##################
-
-""" API FOR  UPDATING DELEATING AND UPDATING PROFILE IS NOT BEING MADE AS WE DON'T NEED THAT  """
-
-######################----------##################
-
-# think need auth for nowing which user send the request (can do it in the index page)
-
-
+@permission_classes([IsAuthenticated])
 class Network_api(generics.ListCreateAPIView):
     """ this allows to make user follow other user """
     queryset = Network.objects.all()
@@ -164,17 +153,7 @@ class Network_api(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-
-
-# def create(self, validated_data):
-#     return User.objects.create(
-#         username=validated_data['username'],
-#         email=validated_data['email'],
-#         is_premium_member=validated_data['profile']['is_premium_member'],
-#         has_support_contract=validated_data['profile']['has_support_contract']
-#     )
-
-# something wrong here
+@permission_classes([IsAuthenticated])
 class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
     """ this allows to make user follow other user """
     serializer_class = NetworkSerializer

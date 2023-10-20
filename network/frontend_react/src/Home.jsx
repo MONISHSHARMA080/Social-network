@@ -15,6 +15,9 @@ export default function Home() {
     if (authTokens) {
       headers.Authorization = `Bearer ${authTokens.access}`;
     }
+
+    console.log("headers from Home ???@@%@*%@%*!(%!(!^(_____--------")
+    console.log(headers)
     fetch('http://127.0.0.1:8000/api/post', {
 
     method: 'GET',

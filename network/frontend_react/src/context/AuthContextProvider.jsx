@@ -116,7 +116,7 @@ const AuthContextProvider = ({children})=>{
         console.log("updateToken()--from loading----->>");
     }
 
-    let twelveMinutes =1000 * 8;
+    let twelveMinutes =1000 * 60 *4;
 
     let interval =  setInterval(()=> {
         if(authTokens){
