@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Post from './allPosts_home';
 import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 export default function Profile() {
   const [data, setData] = useState({ posts: [] }); // Initializing data with an empty array for posts
   const [number, setNumber] = useState(0)
   const { id } = useParams();  // from react router -- to fetch the user's data (in useEffect)
+  const {user} = useContext(AuthContext) // from react router -- provide the login user's id
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/user/${id}`, {})
@@ -24,6 +27,7 @@ export default function Profile() {
   }, []);
 
   function network(){
+    var user_id = user.user_id ;
     fetch('http://127.0.0.1:8000/api/networks/', {
 
     method: 'POST',
@@ -34,7 +38,7 @@ export default function Profile() {
 
         "following":`${data.id}` ,
     //make this data.requesting_user_id after auth setup
-        "follower": 2
+        "follower": `${user_id}`
     //make this data.requesting_user_id after auth setup
 
     }) //bofdy of fetch

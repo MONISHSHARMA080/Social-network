@@ -5,12 +5,9 @@ import AuthContext from './context/AuthContext';
 // import AuthContext from './context/AuthContext';
 
 
-
 export default function Login() {
     
     const {loguserin} = useContext(AuthContext)
-
-
 
 
   return (
@@ -25,6 +22,7 @@ export default function Login() {
             type="text"
             name="username"
             placeholder="Username"
+            required
           />
         </div>
         <div className="form-group">
@@ -33,6 +31,7 @@ export default function Login() {
             type="password"
             name="password"
             placeholder="Password"
+            required
           />
         </div>
         <input className="btn btn-primary m-3" type="submit" value="Login" />

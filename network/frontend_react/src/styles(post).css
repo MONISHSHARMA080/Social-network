@@ -112,6 +112,38 @@ textarea {
   padding: 0.5rem 3.4rem;
   cursor: pointer;
 }
+.flowing-gradient {
+  background: linear-gradient(90deg, #ff0077, #ffcc00);
+  background-size: 200% 100%;
+  border-radius: 24px;
+  transition: background 0.5s;
+  animation: gradientFlow 10s linear infinite;
+}
+
+.flowing-gradient:hover {
+  background: linear-gradient(90deg, #ffcc00, #ff0077);
+  background-size: 200% 100%;
+  animation: none; /* Turn off the animation on hover */
+  /* outline: 1px solid gray; Add a white outline on hover */
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+
+
+
+
+
 
 /* .post-likes {
   margin: 19px;

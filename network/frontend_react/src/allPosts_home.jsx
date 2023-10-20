@@ -2,11 +2,15 @@ import React from 'react';
 import './styles(post).css'; 
 import  { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 export default function Post(props) {
 
   const [number, setNumber] = useState(0)
   const [likes, setLikes] = useState(props.likes + 1)
+  const {user} = useContext(AuthContext) // from react router -- provide the login user's id
+  var req_user_id = user.user_id;
 
 
     const apiDateString = props.date ;
@@ -47,7 +51,7 @@ export default function Post(props) {
         });
     }
 // null cause it is not being send by drf
-console.log("props.requesting_user_id : " +props.requesting_user_id)
+// console.log("props.requesting_user_id : " +props.requesting_user_id)
 
 // for adding like/s  api 
   useEffect(() => {
@@ -58,9 +62,8 @@ console.log("props.requesting_user_id : " +props.requesting_user_id)
     } 
 }, [number]);
 
+// make sure to add backend validation too
 function edit(){}
-
-
 
 
     return (
@@ -74,9 +77,9 @@ function edit(){}
           </strong>
         </h4>
         <h2 className="post-text">{props.text}</h2>
-        {props.requesting_user_id === props.owner ? (
+        {req_user_id === props.owner ? (
         <span>
-          <button className="button" onClick={edit}>
+          <button className="btn btn-danger rounded-pill w-20" onClick={edit}>
             Edit
           </button>
         </span>
