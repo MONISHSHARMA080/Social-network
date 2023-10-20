@@ -10,7 +10,7 @@ export default function Post(props) {
   const [number, setNumber] = useState(0)
   const [likes, setLikes] = useState(props.likes + 1)
   const {user} = useContext(AuthContext) // from react router -- provide the login user's id
-  var req_user_id = user.user_id;
+  const req_user_id = user ? user.user_id : null;
 
 
     const apiDateString = props.date ;
@@ -77,12 +77,14 @@ function edit(){}
           </strong>
         </h4>
         <h2 className="post-text">{props.text}</h2>
-        {req_user_id === props.owner ? (
-        <span>
-          <button className="btn btn-danger rounded-pill w-20" onClick={edit}>
-            Edit
-          </button>
-        </span>
+        { req_user_id ? ( // Check if req_user_id is not null
+req_user_id === props.owner ? (
+  <span>
+    <button className="btn btn-danger rounded-pill w-20" onClick={edit}>
+      Edit
+    </button>
+  </span>
+) : null
       ) : null}
         
         <span className="post-likes" onClick={like}>Likes: {likes}</span>

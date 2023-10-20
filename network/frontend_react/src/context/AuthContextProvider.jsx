@@ -2,6 +2,7 @@ import React , {useEffect, useState,} from "react";
 import AuthContext from "./AuthContext";
 import jwt_decode from "jwt-decode";
 import { redirect } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 
 
 
@@ -67,7 +68,7 @@ const AuthContextProvider = ({children})=>{
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
-        history.push('/login')
+        // history.push('/login') implemnented  in Navbar
     }
 
 
@@ -85,7 +86,8 @@ const AuthContextProvider = ({children})=>{
  var contextData={
      "loguserin":loguserin,
      "user":user,
-     "authTokens":authTokens
+     "authTokens":authTokens,
+     "logoutUser":logoutUser,
 
  } // contextData
 

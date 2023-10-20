@@ -4,10 +4,16 @@ import { Outlet, Link } from "react-router-dom";
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
 import './styles(post).css';
+import { redirect } from 'react-router-dom';
 
 export default function NavBar() {
 
-  const {loguserin} = useContext(AuthContext)
+  const {logoutUser} = useContext(AuthContext)
+  function logout(){
+    console.log("logout-----");
+    logoutUser();
+    return redirect("/login");
+  }
 
   return (<>
     <nav className="navbar navbar-expand-lg navbar-light bg-">
@@ -41,7 +47,7 @@ export default function NavBar() {
             <Link className="nav-link flowing-gradient" to="/register">Register</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link flowing-gradient" href="/logout">Log Out</a>
+            <button className="nav-link flowing-gradient" onClick={(e)=>{e.preventDefault;logout()}} >Log Out</button>
           </li>
         </ul>
       </div>
