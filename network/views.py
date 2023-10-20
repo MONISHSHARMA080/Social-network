@@ -64,18 +64,25 @@ class Follow_api(generics.ListAPIView):
 class User_api(generics.RetrieveAPIView):
     """ will return all the post from a specific user  and who is following the user  """
 
-    queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk'] 
+        return User.objects.filter(pk=pk)
+
 
     def retrieve(self, request, *args, **kwargs):
 # This line retrieves the User object based on the provided user ID from the URL.-->>https://www.django-rest-framework.org/api-guide/generic-views/#get_objectself
 # however alt ways are-> def get(self, request, *args, **kwargs):
 #        my_param = request.query_params.get('my_param')   and in serilizers in charfield and this too ->
+        # id = request.user.id
+        # data['posts'] = PostSerializer(posts, many=True).data
 # self.request.query_params.get('')
         user = self.get_object()
+        
 # now we will filter posts  based on the user found in prev. line and get a relation 
         posts = Post.objects.filter(owner=user).order_by("-date")
-        network = Network.objects.filter(following=user)
+        network = Network.objects.filter(following=user  )
         serializer = self.get_serializer(user)
 # JSON representation of the user
         data = serializer.data
@@ -83,6 +90,7 @@ class User_api(generics.RetrieveAPIView):
         data['posts'] = PostSerializer(posts, many=True).data
         data['network'] = NetworkSerializer(network, many=True).data
         return Response(data, status=status.HTTP_200_OK)
+
 
 
 

@@ -20,6 +20,10 @@ export default function Profile() {
       })
       .then((json_response) => {
         setData(json_response); 
+        console.log("----from profile----")
+        console.log(json_response)
+        console.log("----from profile----")
+
       })
       .catch((err) => {
         console.error(err.message);
@@ -66,10 +70,6 @@ export default function Profile() {
   }, [number]);
 
 
-
-
-  
-// ADD THE FOLLOW BUTTON 
 
 
   return (

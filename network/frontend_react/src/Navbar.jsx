@@ -15,8 +15,8 @@ export default function NavBar() {
   function logout(){
     console.log("logout-----");
     logoutUser();
-    // Redirect to the New-post path.
-    navigate("/New-post");
+    // Redirect to login.
+    navigate("/login");
   }
 
   return (<>

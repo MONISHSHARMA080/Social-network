@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext } from 'react';
 import Post from './allPosts_home';
+import AuthContext from './context/AuthContext';
 
 export default function Home() {
   const [data, setData] = useState([]);
+  let {authTokens} = useContext(AuthContext)
 
 // here using this to get all post on home page
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/post', {})
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (authTokens) {
+      headers.Authorization = `Bearer ${authTokens.access}`;
+    }
+    fetch('http://127.0.0.1:8000/api/post', {
+
+    method: 'GET',
+    headers,
+
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

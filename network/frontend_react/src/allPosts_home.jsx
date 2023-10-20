@@ -12,15 +12,14 @@ export default function Post(props) {
   const {user} = useContext(AuthContext) // from react router -- provide the login user's id
   const req_user_id = user ? user.user_id : null;
 
-
     const apiDateString = props.date ;
     const apiDate = new Date(apiDateString);
     
     // Formating the date as  "YYYY-MM-DD HH:mm:ss" format
     const formattedDate = apiDate.toLocaleString(); 
-    
   
     function like() {
+      
       fetch(`http://127.0.0.1:8000/api/post-change/${props.id}`, {
         method: 'PUT',
         headers: {

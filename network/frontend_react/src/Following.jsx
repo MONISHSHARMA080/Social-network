@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Post from './allPosts_home';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
+import { useNavigate } from "react-router-dom";
+
 
 export default function Following() {
+
     const [data, setData] = useState([]);
-  
     const {user} = useContext(AuthContext)
+    const navigate = useNavigate();
 
     useEffect(() => {
+      // client side routing as unauth. users don't  have following
+      if (user === null){
+        navigate("/");
+     }
       fetch(`http://127.0.0.1:8000/api/network/${user.user_id}`, {})
         .then((response) => {
           if (!response.ok) {

@@ -1,16 +1,17 @@
 import React , {useEffect, useState,} from "react";
 import AuthContext from "./AuthContext";
 import jwt_decode from "jwt-decode";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "react-bootstrap";
 
 
 
 
 const AuthContextProvider = ({children})=>{
-    let [authTokens, setAuthTokens] = useState(null)
+    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
+    
     
     // for testing only 
     useEffect(() => {
@@ -42,11 +43,11 @@ const AuthContextProvider = ({children})=>{
     
           if (response.status === 200) {
             const data = await response.json();
-            setAuthTokens(data.access)
+            setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
             //   redirecting the users
-            return redirect("/");
+            // return redirect("New-post");
             //for testing
             // console.log("access : "+data.access);
             // console.log("access : "+data.access);
@@ -71,11 +72,61 @@ const AuthContextProvider = ({children})=>{
         // history.push('/login') implemnented  in Navbar
     }
 
+    // update the refresh token
+    let updateToken = async ()=> {
+      console.log("____---||||-____")
+
+      let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+          method:'POST',
+          headers:{
+              'Content-Type':'application/json'
+          },
+          body:JSON.stringify({'refresh':authTokens?.refresh})
+      })
+
+      let data = await response.json()
+      console.log("++++++data from api/token/refresh/+++++++++")
+      console.log(data)
+      console.log("++++++data from api/token/refresh/+++++++++")
+
+
+      
+      if (response.status === 200){
+        console.log("____----____")
+          setAuthTokens(data)
+          setUser(jwt_decode(data.access))
+          localStorage.setItem('authTokens', JSON.stringify(data))
+      }else{
+          logoutUser()
+      }
+
+      if(loading){
+          setLoading(false)
+      }
+  }
 
 
       
 
 
+  useEffect(()=> {
+
+    if(loading){
+        updateToken()
+        console.log("updateToken()--from loading----->>");
+    }
+
+    let twelveMinutes =1000 * 8;
+
+    let interval =  setInterval(()=> {
+        if(authTokens){
+            updateToken()
+            console.log("updateToken() -from interval----->>");
+        }
+    }, twelveMinutes)
+    return ()=> clearInterval(interval)
+
+}, [authTokens, loading])
 
 
 
@@ -93,7 +144,7 @@ const AuthContextProvider = ({children})=>{
 
 return(
     <AuthContext.Provider value={contextData}  >
-        {children}
+        {loading ? null : children}
     </AuthContext.Provider>
 )
 

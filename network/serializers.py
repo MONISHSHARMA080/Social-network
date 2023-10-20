@@ -25,11 +25,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'posts' , 'network']
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['requesting_user_id'] = self.context['request'].user.id
-        return data
-
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     requesting_user_id = self.context['request'].user.id
+    #     data['network'] = Network.objects.filter(follower=requesting_user_id)
+    #     return data
 
 
 #class UserSerializer(serializers.ModelSerializer):

@@ -1,16 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AuthContext from './context/AuthContext';
+import './styles(post).css';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 
 // rm hardcoding of the value in views.py--CreatePost and make a new query param.   
-
-
 export default function NewPost(){
-
 const [text, setText] = useState('');
 const [number, setNumber] = useState(0);
-
+const {user} = useContext(AuthContext)
+const navigate = useNavigate(); 
 useEffect(()=>{
+    // client side routing to not allow unauthintiacated users to make post
+    if (user === null){
+       navigate("/");
+    }
+
+
    if (number> 0 && number<2 ) {
     api_call();
    }   
