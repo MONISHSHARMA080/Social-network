@@ -8,6 +8,7 @@ import AuthContext from './context/AuthContext';
 export default function Post(props) {
 
   const [number, setNumber] = useState(0)
+  const [text, setText] = useState(props.text)
   const [likes, setLikes] = useState(props.likes + 1)
   const {user} = useContext(AuthContext) // from react router -- provide the login user's id
   const req_user_id = user ? user.user_id : null;
@@ -61,8 +62,14 @@ export default function Post(props) {
     } 
 }, [number]);
 
-// make sure to add backend validation too
-function edit(){}
+// console.log("from Post --<>><><> "+props.text)
+function edit(){
+
+
+
+
+
+}
 
 
     return (

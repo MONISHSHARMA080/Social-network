@@ -91,7 +91,11 @@ const AuthContextProvider = ({children})=>{
       console.log("|||||||||authTokens|||||||||")
        console.log(authTokens)
       console.log("|||||||||authTokens|||||||||")
-      console.log("Refresh--->>> : "+authTokens.refresh);
+      if  (authTokens){
+
+        console.log("authTokens.refresh{{{{{{{-||}}}}}");
+        console.log(authTokens.refresh);
+      }
 
       
       if (response.status === 200){
@@ -120,14 +124,14 @@ const AuthContextProvider = ({children})=>{
     }
 
     //change this 
-    let twelveMinutes = 1000 * 60 ;
+    let thirtySixMinutes = 1000* 60 *24 ;
 
     let interval =  setInterval(()=> {
         if(authTokens){
             updateToken()
             console.log("updateToken() -from interval----->>");
         }
-    }, twelveMinutes)
+    }, thirtySixMinutes)
     return ()=> clearInterval(interval)
 
 }, [authTokens, loading])
