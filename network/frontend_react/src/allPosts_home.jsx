@@ -4,14 +4,17 @@ import  { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
+import { useNavigate } from "react-router-dom";
+
 
 export default function Post(props) {
 
   const [number, setNumber] = useState(0)
-  const [text, setText] = useState(props.text)
   const [likes, setLikes] = useState(props.likes + 1)
   const {user} = useContext(AuthContext) // from react router -- provide the login user's id
   const req_user_id = user ? user.user_id : null;
+  const navigate = useNavigate();
+
 
     const apiDateString = props.date ;
     const apiDate = new Date(apiDateString);
@@ -62,13 +65,10 @@ export default function Post(props) {
     } 
 }, [number]);
 
-// console.log("from Post --<>><><> "+props.text)
+// make sure to add backend validation too
 function edit(){
-
-
-
-
-
+  // send user to a url where id of post is there
+  navigate( `edit/${props.id} `);
 }
 
 

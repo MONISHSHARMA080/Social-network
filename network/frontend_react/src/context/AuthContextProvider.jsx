@@ -96,7 +96,7 @@ const AuthContextProvider = ({children})=>{
         console.log("authTokens.refresh{{{{{{{-||}}}}}");
         console.log(authTokens.refresh);
       }
-
+     
       
       if (response.status === 200){
         console.log("____----____")
@@ -110,10 +110,9 @@ const AuthContextProvider = ({children})=>{
       if(loading){
           setLoading(false)
       }
+      
   }
 
-
-      
 
 
   useEffect(()=> {

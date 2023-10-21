@@ -23,6 +23,7 @@ urlpatterns = [
     path("api/networks-change/<int:pk>/<int:pk_user>", views.Network_rud_api.as_view(), name="network_rud_api"),
     path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),
     path("api/network/<int:pk>", views.Follow_api.as_view(), name="network"),
+    path("api/individual_post/<int:pk>", views.IndividualPost_api.as_view() ),
           #---api--JWT--
     path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

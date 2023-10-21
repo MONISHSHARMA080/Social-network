@@ -6,6 +6,7 @@ from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import User,Post,Network
+from django.shortcuts import get_object_or_404
 
 #----- rest framework--------
 
@@ -51,6 +52,14 @@ class MyTokenObtainPairView(TokenObtainPairView):
 #--------Djnago jwt(simple)
 
 
+class IndividualPost_api(generics.ListAPIView):
+    """ will return a specific post based on id , where id is taken from url the  following users """
+    serializer_class = PostSerializer
+    
+    def get_queryset(self):
+       id = self.kwargs['pk']
+       post = get_object_or_404(Post, pk=id)
+       return [post] # making post iterable  
 
 
 @permission_classes([IsAuthenticated])
@@ -138,7 +147,7 @@ class Post_api(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
     """ api view designed for HTTP method GET(single post) ,PUT, PATCH, DELETE (of course of a sngle post) """
     queryset = Post.objects.all()

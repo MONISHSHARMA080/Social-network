@@ -10,6 +10,7 @@ import NavBar from './Navbar.jsx';
 import Login from './login.jsx';
 import Register from './register.jsx';
 import AuthContextProvider from './context/AuthContextProvider.jsx';
+import Edit from './Edit.jsx';
 
 
 // const router = createBrowserRouter([
@@ -54,6 +55,7 @@ createRoutesFromElements(
     <Route path="profile/:id" element={<Profile />} exact />
     <Route path="login" element={<Login />} />
     <Route path="register" element={<Register />} />
+    <Route path="edit/:id" element={<Edit />} />
   </Route>
 )
 );
