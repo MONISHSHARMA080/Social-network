@@ -16,8 +16,8 @@ const AuthContextProvider = ({children})=>{
     // for testing only 
     useEffect(() => {
        if (user!=null){
-       console.log("here comes the user---");
-       console.log(  user.username)
+      //  console.log("here comes the user---");
+      //  console.log(  user.username)
     }
 
       }, [authTokens,user]);// useEffect
@@ -74,7 +74,7 @@ const AuthContextProvider = ({children})=>{
 
     // update the refresh token
     let updateToken = async ()=> {
-      console.log("__||REFRESH TOKEN Fn|__")
+      // console.log("__||REFRESH TOKEN Fn|__")
 
       let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
           method:'POST',
@@ -85,21 +85,21 @@ const AuthContextProvider = ({children})=>{
       })
 
       let data = await response.json()
-      console.log("++++++data from api/token/refresh/+++++++++")
-      console.log(data)
-      console.log("++++++data from api/token/refresh/+++++++++")
-      console.log("|||||||||authTokens|||||||||")
-       console.log(authTokens)
-      console.log("|||||||||authTokens|||||||||")
+      // console.log("++++++data from api/token/refresh/+++++++++")
+      // console.log(data)
+      // console.log("++++++data from api/token/refresh/+++++++++")
+      // console.log("|||||||||authTokens|||||||||")
+      //  console.log(authTokens)
+      // console.log("|||||||||authTokens|||||||||")
       if  (authTokens){
 
-        console.log("authTokens.refresh{{{{{{{-||}}}}}");
-        console.log(authTokens.refresh);
+        // console.log("authTokens.refresh{{{{{{{-||}}}}}");
+        // console.log(authTokens.refresh);
       }
      
       
       if (response.status === 200){
-        console.log("____----____")
+        // console.log("____----____")
           setAuthTokens(data)
           setUser(jwt_decode(data.access))
           localStorage.setItem('authTokens', JSON.stringify(data))
@@ -119,7 +119,7 @@ const AuthContextProvider = ({children})=>{
 
     if(loading){
         updateToken()
-        console.log("updateToken()--from loading----->>");
+        // console.log("updateToken()--from loading----->>");
     }
 
     //change this 
@@ -128,7 +128,7 @@ const AuthContextProvider = ({children})=>{
     let interval =  setInterval(()=> {
         if(authTokens){
             updateToken()
-            console.log("updateToken() -from interval----->>");
+            // console.log("updateToken() -from interval----->>");
         }
     }, thirtySixMinutes)
     return ()=> clearInterval(interval)
