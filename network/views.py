@@ -113,12 +113,30 @@ class CreatePost(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-
 class Post_api(generics.ListCreateAPIView):
-    """ api view designed for making a new Post through (HTTP) post method 
-        and getting all post data eg on the home page    """
+    """
+    API view designed for creating a new Post through (HTTP) POST method
+    and getting all post data e.g., on the home page.
+    """
     queryset = Post.objects.all().order_by('-date')
     serializer_class = PostSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            # Require authentication for POST requests
+            return [permissions.IsAuthenticated()]
+        else:
+            # Allow unauthenticated users to make GET requests
+            return []
+
+    def create(self, request, *args, **kwargs):
+        # Override the create method to set the user as the author of the post
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 @permission_classes([IsAuthenticated])
 class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
@@ -138,6 +156,7 @@ class Network_api(generics.ListCreateAPIView):
         following_id = request.data.get('following')
         follower_id = request.data.get('follower')
         network = Network.objects.filter(follower=follower_id , following=following_id)
+        print(self.request.user.id)
 
         # Check if the entry already exists        
         network = Network.objects.filter(follower=follower_id, following=following_id).first()
@@ -167,19 +186,6 @@ class Network_rud_api(generics.RetrieveUpdateDestroyAPIView):
         follower = User.objects.get(pk=pk)
         following = User.objects.get(pk=pk_user)
         return Network.objects.filter(follower= follower , following=following)
-
-    
-    
-
-#class User_api(generics.ListCreateAPIView):
-    """
-        This view should return a list of all relationship(Network) and all the post of the user
-        by determining id(pk) from the URL.
-    """
-#    queryset = User.objects.all()  ,<<<--- old 
-#    serializer_class = UserSerializer
-#    queryset = User.objects.all()
-
 
 
 

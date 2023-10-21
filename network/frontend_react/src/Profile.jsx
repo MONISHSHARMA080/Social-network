@@ -8,10 +8,26 @@ export default function Profile() {
   const [data, setData] = useState({ posts: [] }); // Initializing data with an empty array for posts
   const [number, setNumber] = useState(0)
   const { id } = useParams();  // from react router -- to fetch the user's data (in useEffect)
-  const {user} = useContext(AuthContext) // from react router -- provide the login user's id
+  const {user , authTokens} = useContext(AuthContext) // from react router -- provide the login user's id and authtokens
+
+// header for api call
+const headers = {
+  'Content-Type': 'application/json',
+};
+
+if (authTokens) {
+  headers.Authorization = `Bearer ${authTokens.access}`;
+} 
+
+
+
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/user/${id}`, {})
+    fetch(`http://127.0.0.1:8000/api/user/${id}`, {
+      
+    method: 'GET',
+    headers,
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -31,13 +47,12 @@ export default function Profile() {
   }, []);
 
   function network(){
+
     var user_id = user.user_id ;
     fetch('http://127.0.0.1:8000/api/networks/', {
 
     method: 'POST',
-    headers: {
-        'Content-Type': 'application/json', // Set the content type to JSON
-      },
+    headers,
     body: JSON.stringify({
 
         "following":`${data.id}` ,

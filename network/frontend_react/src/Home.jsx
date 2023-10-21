@@ -3,7 +3,7 @@ import Post from './allPosts_home';
 import AuthContext from './context/AuthContext';
 
 export default function Home() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); 
   let {authTokens} = useContext(AuthContext)
 
 // here using this to get all post on home page
@@ -16,8 +16,8 @@ export default function Home() {
       headers.Authorization = `Bearer ${authTokens.access}`;
     }
 
-    console.log("headers from Home ???@@%@*%@%*!(%!(!^(_____--------")
-    console.log(headers)
+    // console.log("headers from Home ???@@%@*%@%*!(%!(!^(_____--------")
+    // console.log(headers)
     fetch('http://127.0.0.1:8000/api/post', {
 
     method: 'GET',
@@ -36,6 +36,7 @@ export default function Home() {
       .catch((err) => {
         console.error(err.message);
       });
+      
   }, []);
 
   return (

@@ -50,7 +50,7 @@ const AuthContextProvider = ({children})=>{
             // return redirect("New-post");
             //for testing
             // console.log("access : "+data.access);
-            // console.log("access : "+data.access);
+            console.log("Refresh : "+data.refresh);
           } 
           else {
             const data = await response.json(); // Parse the response even if it's not a success status
@@ -74,7 +74,7 @@ const AuthContextProvider = ({children})=>{
 
     // update the refresh token
     let updateToken = async ()=> {
-      console.log("____---||||-____")
+      console.log("__||REFRESH TOKEN Fn|__")
 
       let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
           method:'POST',
@@ -88,7 +88,10 @@ const AuthContextProvider = ({children})=>{
       console.log("++++++data from api/token/refresh/+++++++++")
       console.log(data)
       console.log("++++++data from api/token/refresh/+++++++++")
-
+      console.log("|||||||||authTokens|||||||||")
+       console.log(authTokens)
+      console.log("|||||||||authTokens|||||||||")
+      console.log("Refresh--->>> : "+authTokens.refresh);
 
       
       if (response.status === 200){
@@ -116,7 +119,8 @@ const AuthContextProvider = ({children})=>{
         console.log("updateToken()--from loading----->>");
     }
 
-    let twelveMinutes =1000 * 60 *4;
+    //change this 
+    let twelveMinutes = 1000 * 60 ;
 
     let interval =  setInterval(()=> {
         if(authTokens){

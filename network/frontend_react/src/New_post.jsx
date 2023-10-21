@@ -1,9 +1,8 @@
-import React, { useState, useEffect , useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from './context/AuthContext';
 import './styles(post).css';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -12,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function NewPost(){
 const [text, setText] = useState('');
 const [number, setNumber] = useState(0);
-const {user} = useContext(AuthContext)
+const { user } = useContext(AuthContext);
 const navigate = useNavigate(); 
 useEffect(()=>{
     // client side routing to not allow unauthintiacated users to make post
@@ -31,21 +30,23 @@ useEffect(()=>{
 
 
 function api_call(){
-    fetch('http://127.0.0.1:8000/api/post/create',{
+    fetch('http://127.0.0.1:8000/api/post/create', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json', // Set the content type to JSON
-          },
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.access}` // Include the access token in the headers
+        },
         body: JSON.stringify({
-            text:`${text}`,
-            likes:0
-        }) //bofdy of fetch
-        }) // fetch
-        .then(response => response.json())
-        .then(result => {
-           // Print result
-             console.log(result);});    
-             setText('')
+          text: `${text}`,
+          likes: 0
+        })
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          // Print result
+          console.log(result);
+        });
+      setText('');
 }
 
 

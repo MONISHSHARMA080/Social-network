@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createRoutesFromElements,Route,createBrowserRouter,RouterProvider,} from "react-router-dom";
-import Home from './Home.jsx'
+import Home  from './Home.jsx';
 import Profile from './Profile.jsx'
 import NewPost from './New_post.jsx'
 import Following from './Following.jsx' 
@@ -48,7 +48,7 @@ const router = createBrowserRouter(
 // make profile id dynamic on following -->>https://reactrouter.com/en/main/router-components/browser-router#basename
 createRoutesFromElements(
   <Route path="/" element={<NavBar />}>
-    <Route path="/" element={<Home />} />
+    <Route path="/" element={<Home />}  />
     <Route path="following" element={<Following />} />
     <Route path="New-post" element={<NewPost />} />
     <Route path="profile/:id" element={<Profile />} exact />
