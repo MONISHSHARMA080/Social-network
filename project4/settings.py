@@ -95,7 +95,7 @@ SIMPLE_JWT = SIMPLE_JWT = {
 }
 
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS = ['https://network-sigma.vercel.app/']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
