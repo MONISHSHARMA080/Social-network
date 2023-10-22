@@ -1,1 +1,1 @@
-web: gunicorn 'Social-network.wsgi'
+web: gunicorn 'network.wsgi'
