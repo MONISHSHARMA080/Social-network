@@ -15,7 +15,9 @@ urlpatterns = [
     path("unfollow/<int:id>", views.unfollow, name="unfollow"),
     path("following", views.following, name="following"),
     path("edit/<int:id>", views.edit, name="edit"),
+
     #------api----------
+    
     path("api/post", views.Post_api.as_view(), name="likes_api"),
     path("api/post/create", views.CreatePost.as_view(), name="create_api"),
     path("api/post-change/<int:pk>", views.Post_rud_api.as_view(), name="likes_rud_api"),
@@ -24,7 +26,10 @@ urlpatterns = [
     path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),
     path("api/network/<int:pk>", views.Follow_api.as_view(), name="network"),
     path("api/individual_post/<int:pk>", views.IndividualPost_api.as_view() ),
-          #---api--JWT--
+    path("api/register", views.register_api.as_view() ),
+
+    #---------api--JWT---------
+    
     path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 

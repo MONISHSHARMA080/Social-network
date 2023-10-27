@@ -32,6 +32,15 @@ class UserSerializer(serializers.ModelSerializer):
     #     return data
 
 
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    # for user registration
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+
+
+
 #class UserSerializer(serializers.ModelSerializer):
     """ i think that this relation(primary key) will give all the posts and network associated woth the user  """
 #    network = serializers.PrimaryKeyRelatedField(many=True, queryset=Network.objects.all())
