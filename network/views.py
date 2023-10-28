@@ -21,6 +21,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from rest_framework.views import APIView
+# for catching
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 #---simple JWT----
 
@@ -151,6 +155,7 @@ class Post_api(generics.ListCreateAPIView):
     """
     queryset = Post.objects.all().order_by('-date')
     serializer_class = PostSerializer
+    
 
     def get_permissions(self):
         if self.request.method == 'POST':
