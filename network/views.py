@@ -66,9 +66,8 @@ class register_api(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
             username = serializer.validated_data['username']
-            user = User.objects.get(username=username)
             refresh = RefreshToken.for_user(user)
             data = {
                 'username': username,
