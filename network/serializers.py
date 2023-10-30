@@ -1,3 +1,7 @@
+
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import User
 from rest_framework import serializers
 from .models import User,Post,Network
 
@@ -25,18 +29,32 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'posts' , 'network']
 
-    # def to_representation(self, instance):
-    #     data = super().to_representation(instance)
-    #     requesting_user_id = self.context['request'].user.id
-    #     data['network'] = Network.objects.filter(follower=requesting_user_id)
-    #     return data
-
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    # for user registration
     class Meta:
         model = User
-        fields = ['username', 'password' , 'email']
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
+
+
+# class UserRegistrationSerializer(serializers.Serializer):
+#     username = serializers.CharField()
+#     password = serializers.CharField(write_only=True)
+
+#     def create(self, validated_data):
+#         username = validated_data.get('username')
+#         password = validated_data.get('password')
+#         user = User.objects.create_user(username=username, password=password)
+#         refresh = RefreshToken.for_user(user)
+#         return refresh
 
 
 

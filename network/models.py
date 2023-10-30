@@ -33,6 +33,3 @@ class Network(models.Model):
 
     def __str__(self):
         return f" {self.follower} is following {self.following} "
-
-
-

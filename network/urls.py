@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/user/<int:pk>/', views.User_api.as_view(), name='user-posts-api'),
     path("api/network/<int:pk>", views.Follow_api.as_view(), name="network"),
     path("api/individual_post/<int:pk>", views.IndividualPost_api.as_view() ),
-    path("api/register", views.register_api.as_view() ),
+    path("api/register", views.RegisterView.as_view() ),
 
     #---------api--JWT---------
     
