@@ -225,12 +225,23 @@ class Post_api(generics.ListCreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-
-# @permission_classes([IsAuthenticated])
 class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
-    """ api view designed for HTTP method GET(single post) ,PUT, PATCH, DELETE (of course of a sngle post) """
+    """API view designed for HTTP methods GET (single post), PUT, PATCH, DELETE (of course of a single post)"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.owner == request.user:
+            return super().update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.owner == request.user:
+            return super().destroy(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 

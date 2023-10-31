@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
@@ -6,7 +5,6 @@ from rest_framework import serializers
 from .models import User,Post,Network
 
 class PostSerializer(serializers.ModelSerializer):
-
     owner_name = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
