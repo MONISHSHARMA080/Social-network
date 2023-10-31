@@ -3,9 +3,9 @@
 ### brief intro
 
  Social-network is an twitter-like social media site that has
-* (vanilla) HTML,CSS
+*  (vanilla) HTML,CSS
 *  React frontend
-*   API (using Django-rest-framework)
+*  API (using Django-rest-framework)
 
 It allows users to
 * add new post (tweets/text)
@@ -16,6 +16,8 @@ It allows users to
 *  Profile page to see all the post from the user
 *  Edit button ->  ownly the owner can edit their own post (the edit button will be shown to the owner on their own post)  
 
+## API documentation
+* to get the api [click here](https://network-sigma.vercel.app/api/post)
 
 
 
