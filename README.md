@@ -11,7 +11,7 @@ It allows users to
 * add new post (tweets/text)
 *  Like posts
 *  view all the posts(on a home page)
-*  follow other users
+*  follow other users 
 *  a follwoing feed to show posts from the following user
 *  Profile page to see all the post from the user
 *  Edit button ->  ownly the owner can edit their own post (the edit button will be shown to the owner on their own post)  
@@ -124,11 +124,10 @@ It allows users to
 ## API Documentation
 
 ### Authentication
-
 #### Get JWT Token
 - **URL:** `/api/token/`
 - **Method:** `POST`
-- **Description:** Obtain a JWT token for authentication.
+- **Description:** Obtain a JWT token for authentication of registered user and also the refresh .
 - **Request Body:**
   - `username` (string) - The username of the user.
   - `password` (string) - The user's password.
@@ -137,11 +136,10 @@ It allows users to
   - `refresh` (string) - Refresh token.
 
 ### User Registration
-
 #### Register
 - **URL:** `/api/register/`
 - **Method:** `POST`
-- **Description:** Register a new user.
+- **Description:** Register a new user. If the user is already in the DataBase it will return an error
 - **Request Body:**
   - `username` (string) - The desired username.
   - `password` (string) - The user's password.
@@ -152,11 +150,10 @@ It allows users to
   - `refresh` (string) - Refresh token.
 
 ### Posts
-
 #### Get All Posts
 - **URL:** `/api/post/`
 - **Method:** `GET`
-- **Description:** Retrieve all posts.
+- **Description:** Retrieve all posts ever made .
 - **Response:** List of posts.
 
 #### Create Post
@@ -164,25 +161,33 @@ It allows users to
 - **Method:** `POST`
 - **Description:** Create a new post.
 - **Request Body:**
-  - `content` (string) - The content of the post.
+  - `text` (string) - The content of the post.
+  - `likes`-yes! you can set the default likes on your post , Someone has to make money too /s (sarcasm) .
 - **Response:** The created post.
+- **Note -**Requires to auth.
 
 #### Get, Update, or Delete a Post
 - **URL:** `/api/post-change/<int:pk>/`
 - **Method:** `GET`, `PUT`, `PATCH`, `DELETE`
-- **Description:** Retrieve, update, or delete a specific post by ID.
+- **Description:** (yeaaahhh  sure !! Retrieve too ) update, or delete a specific post by ID in url.
+- **Request Body:**
+  - 'text': text,
+  - 'owner_id': data.owner_id,
+  -  'date': data.date,
+  -  'likes': data.likes,
+  -  'id': data.id,
+  -  'owner_name': data.owner_name
 - **Response:** The post data (for GET) or success message (for PUT, PATCH, DELETE).
+- **Note** : the api user(or post owner) can also  change the likes of a post . And you requires auth.
 
 ### User Profile
-
 #### Get User Profile and Posts
 - **URL:** `/api/user/<int:pk>/`
 - **Method:** `GET`
-- **Description:** Retrieve a user's profile and their posts.
+- **Description:** Retrieve a user's profile and all of their posts.
 - **Response:** User profile data and their posts.
 
 ### Network (Follow/Unfollow)
-
 #### Follow a User
 - **URL:** `/api/networks/`
 - **Method:** `POST`
