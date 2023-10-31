@@ -55,41 +55,9 @@ It allows users to
 - **Input Parameter:** User ID in the URL.
 - **Response:** Returns user information along with their posts and the users following them.
 
-#### `CreatePost`
-- **Description:** API for creating a new post.
-- **HTTP Method:** POST
-- **Input Data:** Post data.
-- **Response:** Returns the created post.
-- **Authentication:** Requires user authentication.
+- 
 
-#### `Post_api`
-- **Description:** API for getting all posts.
-- **HTTP Method:** GET
-- **Response:** Returns all posts in descending order of date.
-- **Authentication:** Allows unauthenticated users for GET requests.
-
-#### `Post_rud_api`
-- **Description:** API for getting, updating, and deleting a single post.
-- **HTTP Methods:** GET, PUT, PATCH, DELETE
-- **Input Parameter:** Post ID in the URL.
-- **Authentication:** Requires user authentication.
-
-#### `Network_api`
-- **Description:** API for making a user follow another user.
-- **HTTP Method:** POST
-- **Input Data:** Follower and following user IDs.
-- **Response:** Returns the created network relationship.
-- **Authentication:** Requires user authentication.
-
-#### `Network_rud_api`
-- **Description:** API for getting, updating, and deleting a network relationship between users.
-- **HTTP Methods:** GET, PUT, PATCH, DELETE
-- **Input Parameters:** Follower and following user IDs in the URL.
-- **Authentication:** Requires user authentication.
-
-### Urls.py
-
-#### URL Patterns
+#### URL Patterns in HTML implementation
 - `/` - Index page
 - `/login` - Login page
 - `/logout` - Logout page
