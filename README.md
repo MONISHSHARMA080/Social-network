@@ -118,4 +118,97 @@ It allows users to
 
 ## [webiste (frontend react) , use super as password and email for dummy user   ](https://network-sigma.vercel.app/)
 ## [The website backend for api call and html(rough version) ](https://social-network-monish.onrender.com)
- 
+
+
+
+## API Documentation
+
+### Authentication
+
+#### Get JWT Token
+- **URL:** `/api/token/`
+- **Method:** `POST`
+- **Description:** Obtain a JWT token for authentication.
+- **Request Body:**
+  - `username` (string) - The username of the user.
+  - `password` (string) - The user's password.
+- **Response:**
+  - `access` (string) - Access token.
+  - `refresh` (string) - Refresh token.
+
+### User Registration
+
+#### Register
+- **URL:** `/api/register/`
+- **Method:** `POST`
+- **Description:** Register a new user.
+- **Request Body:**
+  - `username` (string) - The desired username.
+  - `password` (string) - The user's password.
+  - `email` (string) - User's email address.
+- **Response:**
+  - `statue` (integer) - Status code (200 for success, 403 for failure).
+  - `access` (string) - Access token.
+  - `refresh` (string) - Refresh token.
+
+### Posts
+
+#### Get All Posts
+- **URL:** `/api/post/`
+- **Method:** `GET`
+- **Description:** Retrieve all posts.
+- **Response:** List of posts.
+
+#### Create Post
+- **URL:** `/api/post/create/`
+- **Method:** `POST`
+- **Description:** Create a new post.
+- **Request Body:**
+  - `content` (string) - The content of the post.
+- **Response:** The created post.
+
+#### Get, Update, or Delete a Post
+- **URL:** `/api/post-change/<int:pk>/`
+- **Method:** `GET`, `PUT`, `PATCH`, `DELETE`
+- **Description:** Retrieve, update, or delete a specific post by ID.
+- **Response:** The post data (for GET) or success message (for PUT, PATCH, DELETE).
+
+### User Profile
+
+#### Get User Profile and Posts
+- **URL:** `/api/user/<int:pk>/`
+- **Method:** `GET`
+- **Description:** Retrieve a user's profile and their posts.
+- **Response:** User profile data and their posts.
+
+### Network (Follow/Unfollow)
+
+#### Follow a User
+- **URL:** `/api/networks/`
+- **Method:** `POST`
+- **Description:** Follow a user.
+- **Request Body:**
+  - `following` (integer) - ID of the user to follow.
+  - `follower` (integer) - ID of the follower.
+- **Response:** Network relationship data.
+
+#### Unfollow a User
+- **URL:** `/api/networks-change/<int:pk>/<int:pk_user>/`
+- **Method:** `DELETE`
+- **Description:** Unfollow a user.
+- **Response:** Success message.
+
+#### Get Posts from Followed Users
+- **URL:** `/api/network/<int:pk>/`
+- **Method:** `GET`
+- **Description:** Retrieve posts from users you are following.
+- **Response:** List of posts.
+
+#### Get Individual Post
+- **URL:** `/api/individual_post/<int:pk>/`
+- **Method:** `GET`
+- **Description:** Retrieve a specific post by ID.
+- **Response:** The post data.
+
+Please make sure to replace placeholders like `<int:pk>` with actual values in your API URLs. This documentation should help users understand the functionality and usage of your Django application's API endpoints.
+
