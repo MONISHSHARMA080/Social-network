@@ -17,7 +17,7 @@ It allows users to
 *  Edit button ->  ownly the owner can edit their own post (the edit button will be shown to the owner on their own post)  
 
 ## API documentation
-* to get the api [click here](https://network-sigma.vercel.app/api/post)
+* to get the api [click here](https://social-network-monish.onrender.com/api/post)
 
 
 
