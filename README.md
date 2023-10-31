@@ -171,12 +171,12 @@ It allows users to
 - **Method:** `GET`, `PUT`, `PATCH`, `DELETE`
 - **Description:** (yeaaahhh  sure !! Retrieve too ) update, or delete a specific post by ID in url.
 - **Request Body:**
-  - 'text': text,
-  - 'owner_id': data.owner_id,
-  -  'date': data.date,
-  -  'likes': data.likes,
-  -  'id': data.id,
-  -  'owner_name': data.owner_name
+  - `text`: text,
+  - `owner_id`: data.owner_id,
+  -  `date`: data.date,
+  -  `likes`: data.likes,
+  -  `id`: data.id,
+  -  `owner_name`: data.owner_name
 - **Response:** The post data (for GET) or success message (for PUT, PATCH, DELETE).
 - **Note** : the api user(or post owner) can also  change the likes of a post . And you requires auth.
 
