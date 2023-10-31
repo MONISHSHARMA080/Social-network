@@ -16,47 +16,6 @@ It allows users to
 *  Profile page to see all the post from the user
 *  Edit button ->  ownly the owner can edit their own post (the edit button will be shown to the owner on their own post)  
 
-## API documentation
-* to get the api [click here](https://social-network-monish.onrender.com/api/post)
-
-### Views.py
-
-#### `MyTokenObtainPairSerializer`
-- **Description:** Custom TokenObtainPairSerializer for adding custom claims to the JWT token.
-- **Custom Claims:** It adds the 'username' claim to the token.
-- **Usage:** Used for obtaining JWT tokens with custom claims.
-
-#### `MyTokenObtainPairView`
-- **Description:** Custom TokenObtainPairView for obtaining JWT tokens with custom claims.
-- **Serializer:** Uses `MyTokenObtainPairSerializer` for token creation.
-
-#### `RegisterView`
-- **Description:** API view for user registration.
-- **HTTP Method:** POST
-- **Input Data:** User registration data.
-- **Response:** Returns a JWT refresh and access token upon successful registration.
-- **Errors:** Returns a 403 error if the registration data is invalid.
-
-#### `IndividualPost_api`
-- **Description:** API for retrieving a specific post by ID.
-- **HTTP Method:** GET
-- **Input Parameter:** Post ID in the URL.
-- **Response:** Returns the specified post.
-
-#### `Follow_api`
-- **Description:** API for retrieving posts of all the following users.
-- **HTTP Method:** GET
-- **Input Parameter:** User ID in the URL.
-- **Response:** Returns posts from users that the specified user is following.
-
-#### `User_api`
-- **Description:** API for retrieving user data, user's posts, and users following the user.
-- **HTTP Method:** GET
-- **Input Parameter:** User ID in the URL.
-- **Response:** Returns user information along with their posts and the users following them.
-
-- 
-
 #### URL Patterns in HTML implementation
 - `/` - Index page
 - `/login` - Login page
@@ -84,14 +43,15 @@ It allows users to
 
 
 
-## [webiste (frontend react) , use super as password and email for dummy user   ](https://network-sigma.vercel.app/)
+## [Try out  ](https://network-sigma.vercel.app/) use super as password and email for dummy user
 ## [The website backend for api call and html(rough version) ](https://social-network-monish.onrender.com)
 
 
 
-## API Documentation
+## API documentation
+* to get the api [click here](https://social-network-monish.onrender.com/api/post)
 
-### Authentication
+### Authentication (or getting auth tokens for login)
 #### Get JWT Token
 - **URL:** `/api/token/`
 - **Method:** `POST`
