@@ -1,6 +1,6 @@
 # Social-network
 
-### brief intro
+### brief intro (HTML Version)        
 
  Social-network is an twitter-like social media site that has
 *  (vanilla) HTML,CSS
