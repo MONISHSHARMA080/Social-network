@@ -43,7 +43,7 @@ It allows users to
 
 
 
-## [Try out  ](https://network-sigma.vercel.app/) use super as password and email for dummy user
+## [Try out  ](https://network-sigma.vercel.app/) tip-> use super as password and email for dummy user
 ## [The website backend for api call and html(rough version) ](https://social-network-monish.onrender.com)
 
 
@@ -144,4 +144,7 @@ It allows users to
 - **Response:** The post data.
 
 Please make sure to replace placeholders like `<int:pk>` with actual values in your API URLs. This documentation should help users understand the functionality and usage of your Django application's API endpoints.
+
+## React(frontend):
+
 
