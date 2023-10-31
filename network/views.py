@@ -231,12 +231,6 @@ class Post_rud_api(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def update(self, request, *args, **kwargs):
-        post = self.get_object()
-        if post.owner == request.user:
-            return super().update(request, *args, **kwargs)
-        return Response(status=status.HTTP_403_FORBIDDEN)
-
     def destroy(self, request, *args, **kwargs):
         post = self.get_object()
         if post.owner == request.user:
