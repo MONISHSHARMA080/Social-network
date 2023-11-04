@@ -90,7 +90,7 @@ It allows users to
 - **Description:** Create a new post.
 - **Request Body:**
   - `text` (string) - The content of the post.
-  - `likes`-yes! you can set the default likes on your post , Someone has to make money too /s (sarcasm) .
+  - `likes`-yes! you can set the default likes on your post , Someone has to make money bu selling API /s (sarcasm) .
 - **Response:** The created post.
 - **Note -**Requires to auth.
 
@@ -99,12 +99,12 @@ It allows users to
 - **Method:** `GET`, `PUT`, `PATCH`, `DELETE`
 - **Description:** (yeaaahhh  sure !! Retrieve too ) update, or delete a specific post by ID in url.
 - **Request Body:**
-  - `text`: text,
-  - `owner_id`: data.owner_id,
-  -  `date`: data.date,
-  -  `likes`: data.likes,
-  -  `id`: data.id,
-  -  `owner_name`: data.owner_name
+  - `text`: new text,
+  - `owner_id`: owner_id,
+  -  `date`: date,
+  -  `likes`: likes that you anted to change,
+  -  `id`: post id,
+  -  `owner_name`: owner_name
 - **Response:** The post data (for GET) or success message (for PUT, PATCH, DELETE).
 - **Note** : the api user(or post owner) can also  change the likes of a post . And you requires auth.
 
