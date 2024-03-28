@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG',False)
 
 ALLOWED_HOSTS = ['social-network-monish.onrender.com' , '127.0.0.1']
 
@@ -34,6 +36,7 @@ ALLOWED_HOSTS = ['social-network-monish.onrender.com' , '127.0.0.1']
 INSTALLED_APPS = [
     'corsheaders',
     'network',
+    'Magical_first_website',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

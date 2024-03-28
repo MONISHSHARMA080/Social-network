@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("network.urls")),
+    path("app/", include("Magical_first_website.urls")),
 ]
