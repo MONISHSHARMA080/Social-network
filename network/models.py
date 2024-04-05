@@ -1,10 +1,13 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import Group, Permission
 
 
 class User(AbstractUser):
     
-
+    groups = models.ManyToManyField(Group, related_name='network_users')
+    user_permissions = models.ManyToManyField(Permission, related_name='network_user_permissions')
+    
     def followers_count(self):
         return self.followers.count()
 
