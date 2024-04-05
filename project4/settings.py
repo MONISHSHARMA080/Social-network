@@ -64,10 +64,16 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '8/minute',
         'user': '1000/day'
-    }
+    },
+    
 
 
 }
+
+if os.getenv('DEBUG') == False:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 
 
 SIMPLE_JWT = SIMPLE_JWT = {
