@@ -283,21 +283,21 @@ def write_css_file(new_code,name):
 
 
 
-def verify_google_token(id_token_from_frontend:str):
-    
+def verify_google_token(id_token_from_frontend: str):
     try:
         # Specify the Google client ID for your app
-        client_id:str = os.getenv("GOOGLE_CLIENT_ID")
-        
-        if os.getenv("GOOGLE_CLIENT_ID") == None or len(client_id) <2 :
-            return JsonResponse({"response":500, "message":"We are unable to reach out to google"})
-      
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+
+        if client_id is None or len(client_id) < 2:
+            return 500, "We are unable to reach out to Google"
+
         # Verify the token
         id_info = id_token.verify_oauth2_token(id_token_from_frontend, requests.Request(), client_id)
 
-        # Respond back to the frontend with verification status or user information
-        return JsonResponse({"response":200,'status': 'success', "whole thing":id_info})
-    except ValueError as e:
+        # Return the verification status or user information
+        id_info['status'] = 200
+        return id_info
+    except Exception as e:
         # Token is invalid
-        return JsonResponse({"response":500, 'message': str(e)})
+        return {"status":400 , "exception": str(e)}
 
