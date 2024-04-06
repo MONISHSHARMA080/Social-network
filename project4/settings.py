@@ -56,18 +56,18 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    # to make sure non auth users don't disturb the DB too much
+   
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '8/minute',
-        'user': '1000/day'
+        'user': '1000/day',
     },
-    'DEFAULT_RENDERER_CLASSES':{
+    'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-    }
+    ]
     
 
 
