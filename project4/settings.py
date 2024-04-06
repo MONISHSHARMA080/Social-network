@@ -65,15 +65,14 @@ REST_FRAMEWORK = {
         'anon': '8/minute',
         'user': '1000/day'
     },
+    'DEFAULT_RENDERER_CLASSES':{
+        'rest_framework.renderers.JSONRenderer',
+    }
     
 
 
 }
 
-if os.getenv('DEBUG') == False:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-        'rest_framework.renderers.JSONRenderer',
-    ]
 
 
 SIMPLE_JWT = SIMPLE_JWT = {
