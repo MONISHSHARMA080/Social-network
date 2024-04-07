@@ -33,3 +33,4 @@ class User_in_magical_website(models.Model):
     
     def __str__(self):
         return f"{self.name}"
+    
