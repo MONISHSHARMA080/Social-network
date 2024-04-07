@@ -1,27 +1,35 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import Group, Permission
+from django.core.exceptions import ValidationError
 
-class User_in_magical_website(AbstractUser):
+
+class User_in_magical_website(models.Model):
     profile_picture_url = models.URLField(null=True, blank=True)
     registered_date = models.DateTimeField(auto_now_add=True)
     email_verified = models.BooleanField(null=False, blank=False, default=False)
-    password = models.CharField(max_length=255, blank=True, null=True)
     verified_through_auth_provider = models.BooleanField(null=False, blank=False, default=False)
-    # fro
+    email = models.EmailField(null=False,blank=False)
+    name = models.CharField(null=False,blank=False,max_length=700)
+    password = models.CharField(max_length=255, blank=True, null=True)
+    
     groups = models.ManyToManyField(Group, related_name='magical_website_users')
     user_permissions = models.ManyToManyField(Permission, related_name='magical_website_user_permissions')
     # 
     
     # def save(self, *args, **kwargs):
     #     # Check if the user is verified through the auth provider
-    #     if self.verified_through_auth_provider:
-    #         self.password = None  # Set password to NULL if verified
-    #         self.email_verified = True
-    #     else:
-    #         self
-        
-    #     super().save(*args, **kwargs)
+    #     # Allow saving if the user is verified through the auth provider
+    #     print("kkk->",self.email_verified,"jjj->", self.password )
+    #     if self.password is None:
+    #         if self.email_verified == True:
+    #             print("worked))))))))))))00)0))00")
+    #             super().save(*args, **kwargs)
+    #     elif self.password is  not None:
+    #         print("Cannot create user with null password and unverified through auth provider")
+    
+    #         super().save(*args, **kwargs)
+
     
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.name}"
