@@ -5,7 +5,7 @@ from rest_framework import routers, serializers, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Magical_first_website.models import User_in_magical_website
-from Magical_first_website.serializers import View_all_users_serializer, user_serializer
+from Magical_first_website.serializers import Email_signup_usewr_serializer, View_all_users_serializer, user_serializer
 from rest_framework import mixins
 from rest_framework import generics
 from .views import verify_google_token
@@ -25,14 +25,8 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
             
         a = serializer.save()
         print(a,"----")
-    
-        # return Response(response_from_token_verification, status=response_from_token_verification['status'])
+        
         return Response(a)
-    
-    # def perform_create(self, serializer):
-    #     print("---in perform create ")
-    #     serializer.save()
-    
     
     def get(self, request, *args, **kwargs):
         users = User_in_magical_website.objects.all()
@@ -44,12 +38,28 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
         users = self.get_queryset()
         users.delete()
         return Response( status=204)
+    
+    
+class user_signup_by_email(mixins.CreateModelMixin, generics.GenericAPIView):
+    
+    queryset = User_in_magical_website.objects.all()
+    serializer_class = Email_signup_usewr_serializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data )
+        if not serializer.is_valid():
+            return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST)
+            
+        a = serializer.save()
+        print(a,"----")
+        
+        return Response(a)    
+    
+
      
 def verify_google_token_view(request_object):
-        print("--++00_---from verify id tooken in views.py")
         id_token_from_frontend = request_object.data.get('id_token')
         
-
         if not id_token_from_frontend:
             return { "message": "Bad request: id_token is missing", "status" : 400}
 
