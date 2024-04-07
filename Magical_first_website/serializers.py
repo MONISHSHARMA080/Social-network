@@ -52,7 +52,8 @@ def verify_google_token_view(request_object):
         
         return  id_info
    
-class UserSerializer(serializers.ModelSerializer):
+class View_all_users_serializer(serializers.ModelSerializer):
     class Meta:
         model = User_in_magical_website
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['groups','user_permissions']

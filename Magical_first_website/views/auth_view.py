@@ -5,7 +5,7 @@ from rest_framework import routers, serializers, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Magical_first_website.models import User_in_magical_website
-from Magical_first_website.serializers import UserSerializer, user_serializer
+from Magical_first_website.serializers import View_all_users_serializer, user_serializer
 from rest_framework import mixins
 from rest_framework import generics
 from .views import verify_google_token
@@ -36,8 +36,7 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
     
     def get(self, request, *args, **kwargs):
         users = User_in_magical_website.objects.all()
-        serializer = UserSerializer(users, many=True)
-        print(serializer.data,"pPPpPPPP")
+        serializer = View_all_users_serializer(users, many=True)
         return Response(serializer.data)
 
     
