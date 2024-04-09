@@ -5,7 +5,6 @@ social-network-venv
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
 media
 
 # Backup files # 
@@ -198,9 +197,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
-*db.sql
+
 
 # Flask stuff:
 instance/
@@ -305,7 +302,7 @@ cython_debug/
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
+
 media
 
 # Backup files # 
@@ -438,3 +435,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+

@@ -82,18 +82,12 @@ class Spotify_signup_user_serializer(serializers.ModelSerializer):
             "header":{"Authorization":f"Basic {authorization}"}
         }
         response = requests.post(url,data=data["form"],headers=data["header"])
-        print("-------------------------")
-        print(f"------{response.status_code}-------------------")
-        print(response.json(), "response __--__-_-_--  _--_-____")
-        print("-------------------------")
-        print("-------------------------")
         if response.status_code == 200:
             # now after getting access token from user's token , getting user details from the access token  
             access_token_for_getting_user_details_from_api = response.json().get('access_token')
             print(access_token_for_getting_user_details_from_api)
             url_to_get_user_details_from_spotify = 'https://api.spotify.com/v1/me'
             response_containing_user_details = requests.get(url=url_to_get_user_details_from_spotify, headers={"Authorization": f"Bearer {access_token_for_getting_user_details_from_api}"})
-            print("[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]")
             if response_containing_user_details.status_code == 200:
                 print(response_containing_user_details.json(),"KKKKKKKKKKKKKKKKKKKKKKKKKK")
                 response_containing_user_details = response_containing_user_details.json()
@@ -106,27 +100,14 @@ class Spotify_signup_user_serializer(serializers.ModelSerializer):
                 validated_data['verified_through_auth_provider'] = 'True'
                 print(validated_data , "??//?//?")
                 super().create(validated_data)
+                print(response_containing_user_details.status_code,response_containing_user_details.content)
                 return {"status":response.status_code,"data":response_containing_user_details,"message":validated_data ,"k":"ppPpPPppppppPp"}
-            print(response_containing_user_details.status_code,response_containing_user_details.content)
-            print("[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]----") 
-        
-        return {"status":"response_from_google_auth_function.get('status')","message":validated_data}
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            else:
+                return {"status":response.status_code,"message":validated_data} 
+
+        else:
+            return {"status":response.status_code,"message":validated_data}
+                
         
         
 # auth helper function----------------

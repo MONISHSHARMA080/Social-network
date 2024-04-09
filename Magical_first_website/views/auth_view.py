@@ -105,10 +105,10 @@ class user_signup_by_spotify(mixins.CreateModelMixin, generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data )
         if not serializer.is_valid():
             return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST) 
-        a = serializer.save()
-        print(a,"----from spotify serilizer")
+        response_from_create_func_in_serilizer  = serializer.save()
+        print(response_from_create_func_in_serilizer,"----from spotify serilizer")
         
-        return Response(a)    
+        return Response(response_from_create_func_in_serilizer)    
 
     
     
