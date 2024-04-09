@@ -11,8 +11,7 @@ from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
 from rest_framework.decorators import api_view
-import requests
-import base64
+
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
     queryset = User_in_magical_website.objects.all()
@@ -107,7 +106,7 @@ class user_signup_by_spotify(mixins.CreateModelMixin, generics.GenericAPIView):
         if not serializer.is_valid():
             return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST) 
         a = serializer.save()
-        print(a,"----from spotify")
+        print(a,"----from spotify serilizer")
         
         return Response(a)    
 
