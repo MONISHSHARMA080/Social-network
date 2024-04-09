@@ -289,7 +289,7 @@ def verify_google_token(id_token_from_frontend: str):
         client_id = os.getenv("GOOGLE_CLIENT_ID")
 
         if client_id is None or len(client_id) < 2:
-            return 500, "We are unable to reach out to Google"
+            return 500, "We are unable to reach out to Google for auth"
 
         # Verify the token
         id_info = id_token.verify_oauth2_token(id_token_from_frontend, requests.Request(), client_id)
@@ -301,3 +301,21 @@ def verify_google_token(id_token_from_frontend: str):
         # Token is invalid
         return {"status":400 , "exception": str(e)}
 
+
+def verify_spotify_token(id_token_from_frontend: str):
+    try:
+        # Specify the Google client ID for your app
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+
+        if client_id is None or len(client_id) < 2:
+            return 500, "We are unable to reach out to Spotify for auth"
+
+        # Verify the token
+       
+
+        # Return the verification status or user information
+        id_info['status'] = 200
+        return id_info
+    except Exception as e:
+        # Token is invalid
+        return {"status":400 , "exception": str(e)}
