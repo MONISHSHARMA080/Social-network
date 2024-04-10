@@ -5,12 +5,14 @@ from django.core.exceptions import ValidationError
 
 
 class User_in_magical_website(models.Model):
-    profile_picture_url = models.URLField(null=True, blank=True)
     registered_date = models.DateTimeField(auto_now_add=True)
+    
+    profile_picture_url = models.URLField(null=True, blank=True)
     email_verified = models.BooleanField(null=False, blank=False, default=False)
     verified_through_auth_provider = models.BooleanField(null=False, blank=False, default=False)
-    email = models.EmailField(null=False,blank=False)
+    email = models.EmailField(null=False,blank=False,unique=True)
     name = models.CharField(null=False,blank=False,max_length=700)
+    
     password = models.CharField(max_length=255, blank=True, null=True)
     
     groups = models.ManyToManyField(Group, related_name='magical_website_users')
