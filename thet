@@ -1,0 +1,4 @@
+[master 50b89a2a] made changes - only users with unique emails can be in the DB and also unified the response from all sign in features
+ 7 files changed, 71 insertions(+), 72 deletions(-)
+ create mode 100644 Magical_first_website/migrations/0004_alter_user_in_magical_website_email.py
+ create mode 100644 thet
