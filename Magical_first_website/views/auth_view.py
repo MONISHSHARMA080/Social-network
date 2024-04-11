@@ -11,7 +11,7 @@ from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
 from rest_framework.decorators import api_view
-
+from django_email_verification import send_email
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
     queryset = User_in_magical_website.objects.all()
@@ -29,8 +29,9 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
         return Response(a)
     
     def get(self, request, *args, **kwargs):
-        users = User_in_magical_website.objects.all()
-        serializer = View_all_users_serializer(users, many=True)
+        users = User_in_magical_website.objects.first()
+        serializer = View_all_users_serializer(users, many=False)
+        send_email(users, thread=False, expiry=None, context=None)
         return Response(serializer.data)
 
     
