@@ -1,5 +1,5 @@
 import pyotp
-from rest_framework import serializers
+from rest_framework import serializers,status
 from Magical_first_website.models import User_in_magical_website 
 from Magical_first_website.views.views import verify_google_token 
 # password hashing --
@@ -7,9 +7,52 @@ from django.contrib.auth.hashers import make_password
 import requests
 import base64
 from django.db import IntegrityError
-from datetime import datetime
 from django.core.mail import send_mail
 from project4.settings import EMAIL_HOST_USER
+from django.utils import timezone
+
+
+class verify_user_through_otp(serializers.ModelSerializer):
+    otp = serializers.IntegerField(write_only=True,) 
+
+    class Meta:
+        model = User_in_magical_website
+        fields = ['otp','email']
+        
+    def update(self, instance, validated_data):
+        otp = validated_data.get('otp')
+        email = validated_data.get('email')
+        try:
+            user = User_in_magical_website.objects.get(email=email)
+        except User_in_magical_website.DoesNotExist:
+                return {"status":status.HTTP_404_NOT_FOUND,"message":validated_data}
+        if user.email_verified == True:
+                ...
+        if user.otp == otp:
+            if user.otp_created_at and timezone.now() - user.otp_created_at <= timezone.timedelta(hours=2):
+                user.email_verified = True
+                user.save() 
+                validated_data.pop('otp')
+                validated_data['profile_picture_url'] = user.profile_picture_url 
+                validated_data['email_verified'] = user.email_verified 
+                validated_data['verified_through_auth_provider'] = user.verified_through_auth_provider 
+                validated_data['name'] = user.name 
+                
+                return {"status": status.HTTP_201_CREATED, "message_to_display_user": "Your email has been verified , welcome onboard","message":"You are now verified","user":validated_data}
+            else:
+                totp = pyotp.TOTP(pyotp.random_base32())
+                new_otp = totp.now()
+                send_user_email(new_otp, user.email, user.name)
+                # Update the OTP and OTP creation time
+                user.otp = new_otp
+                user.otp_created_at = timezone.now()
+                user.save()
+                return {"status": status.HTTP_400_BAD_REQUEST, "message_to_display_user": "OTP has expired. Please re-enter the new OTP"}
+        else:
+            return {"status": status.HTTP_400_BAD_REQUEST, "message_to_display_user": "Invalid OTP"}
+      
+    
+
 
 class user_serializer(serializers.ModelSerializer):
     id_token = serializers.CharField(write_only=True,max_length=None, min_length=10, allow_blank=False, trim_whitespace=True) 
@@ -47,7 +90,7 @@ class View_all_users_serializer(serializers.ModelSerializer):
     class Meta:
         model = User_in_magical_website
         # fields = '__all__'
-        exclude = ['groups','user_permissions']
+        exclude = ['groups','user_permissions','otp','otp_created_at']
         
 class Email_signup_usewr_serializer(serializers.ModelSerializer):
     class Meta:
@@ -61,7 +104,7 @@ class Email_signup_usewr_serializer(serializers.ModelSerializer):
         totp = pyotp.TOTP(pyotp.random_base32())
         otp = totp.now()
         validated_data['otp'] =  otp
-        validated_data['otp_created_at'] = datetime.now()
+        validated_data['otp_created_at'] = timezone.now()
         validated_data['verified_through_auth_provider'] = False
         validated_data['email_verified'] = False
         
@@ -132,12 +175,15 @@ class Spotify_signup_user_serializer(serializers.ModelSerializer):
                     validated_data['profile_picture_url'] = images[0].get('url')
                 else:
                     validated_data['profile_picture_url'] = ""
-                return {"status":status_code_to_send_in_response,"message":validated_data }
+                return {"status":status_code_to_send_in_response,"message_to_display_user": "Your email has been verified , welcome onboard","message":"You are now verified","user":validated_data }
             else:
-                return {"status":response.status_code,"message":validated_data} 
+                return {"status":response.status_code,"message_to_display_user": "We can't verify you ","message":"error during spotify api depth 2","user":validated_data} 
 
         else:
-            return {"status":response.status_code,"message":response.json().get('error_description')}
+            if response.json().get('error_description') == "Invalid authorization code":
+                return {"status":response.status_code,"message":response.json().get('error_description'),"message_to_display_user":"Please try logging in again your code has expired"}
+        return {"status":response.status_code,"message":response.json().get('error_description')}
+            
                 
         
         
@@ -176,8 +222,9 @@ def send_user_email(otp, user_email, user_name):
     <head></head>
     <body>
         <h1 style="font-size: 24px;">Hi {user_name},</h1>
-        <p><h3>Here's your OTP for your account verification:</h3></p>
+        <p><h3>Here's your OTP for your account verification :</h3></p>
         <h1 style="font-size: 36px;">{otp}</h1>
+        <h4>OTP will be valid for 2 hours</h4>
     </body>
     </html>
     """

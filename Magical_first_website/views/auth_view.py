@@ -1,20 +1,11 @@
-from django.http import JsonResponse
-from django.urls import path, include
-# from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Magical_first_website.models import User_in_magical_website
-from Magical_first_website.serializers import Email_signup_usewr_serializer, Spotify_signup_user_serializer, View_all_users_serializer, user_serializer
+from Magical_first_website.serializers import Email_signup_usewr_serializer, Spotify_signup_user_serializer, View_all_users_serializer, user_serializer,verify_user_through_otp
 from rest_framework import mixins
 from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
-from rest_framework.decorators import api_view
-import pyotp
-import time
-from datetime import datetime
-
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
     queryset = User_in_magical_website.objects.all()
@@ -24,8 +15,7 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
 
         serializer = self.get_serializer(data=request.data )
         if not serializer.is_valid():
-            return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST)
-            
+            return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST)            
         a = serializer.save()
         print(a,"----")
         
@@ -34,15 +24,6 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
     def get(self, request, *args, **kwargs):
         users = User_in_magical_website.objects.all()
         serializer = View_all_users_serializer(users, many=True)
-        # totp = pyotp.TOTP('base32secret3232')
-        totp = pyotp.TOTP(pyotp.random_base32())
-        otp = totp.now()
-        
-        print(f"totp ->{totp}, ----otp ->{int(otp)},----{type(int(otp))}")
-        # subject = "Your OTP for Magical Website"
-        # message = f"Your OTP is: {otp}"
-        # recipient_list = [users.email]
-        
         return Response(serializer.data)
 
     
@@ -80,7 +61,27 @@ class user_signup_by_spotify(mixins.CreateModelMixin, generics.GenericAPIView):
         response_from_create_func_in_serilizer  = serializer.save()
         print(response_from_create_func_in_serilizer,"----from spotify serilizer")
         
-        return Response(response_from_create_func_in_serilizer)    
+        return Response(response_from_create_func_in_serilizer) 
+    
+class verify_user_through_otp(mixins.CreateModelMixin, generics.GenericAPIView):
+    
+    queryset = User_in_magical_website.objects.all()
+    serializer_class = verify_user_through_otp
+    
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        try:
+            user = User_in_magical_website.objects.get(email=email)
+        except User_in_magical_website.DoesNotExist:
+            return Response({"error": "User with this email does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.get_serializer(user, data=request.data)
+        if serializer.is_valid():
+            a = serializer.update(user, serializer.validated_data)
+            return Response(a)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+       
 
     
     
@@ -97,9 +98,3 @@ def verify_google_token_view(request_object):
         id_info = verify_google_token(id_token_from_frontend)
         
         return  id_info
-
-def send_user_email(otp , user_email, user_name):
-    subject = "OTP for your account"
-    message = f"Hi {user_name}, here's your otp for registering  your account \n\n {otp} "
-    recipient_list = [user_email]
-    send_mail(subject,message,EMAIL_HOST_USER,recipient_list,fail_silently=False)

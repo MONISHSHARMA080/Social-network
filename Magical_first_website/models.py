@@ -21,6 +21,9 @@ class User_in_magical_website(models.Model):
     groups = models.ManyToManyField(Group, related_name='magical_website_users')
     user_permissions = models.ManyToManyField(Permission, related_name='magical_website_user_permissions')
     
+    
+    
+    
     # def save(self, *args, **kwargs):
     #     # Check if the user is verified through the auth provider
     #     # Allow saving if the user is verified through the auth provider
