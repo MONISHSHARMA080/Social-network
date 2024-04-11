@@ -13,3 +13,4 @@ python-dotenv
 groq
 google-cloud-aiplatform
 google-auth
+pyotp

@@ -11,8 +11,9 @@ from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
 from rest_framework.decorators import api_view
-from django.core.mail import send_mail, EmailMessage
-from project4.settings import EMAIL_HOST_USER
+import pyotp
+import time
+from datetime import datetime
 
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
@@ -33,10 +34,14 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
     def get(self, request, *args, **kwargs):
         users = User_in_magical_website.objects.all()
         serializer = View_all_users_serializer(users, many=True)
-        subject = "Your Muda muda Muda "
-        message = "Ora ora"
-        recipient_list = [users[0].email]
-        send_mail(subject,message,EMAIL_HOST_USER,recipient_list,fail_silently=False)
+        # totp = pyotp.TOTP('base32secret3232')
+        totp = pyotp.TOTP(pyotp.random_base32())
+        otp = totp.now()
+        
+        print(f"totp ->{totp}, ----otp ->{int(otp)},----{type(int(otp))}")
+        # subject = "Your OTP for Magical Website"
+        # message = f"Your OTP is: {otp}"
+        # recipient_list = [users.email]
         
         return Response(serializer.data)
 
@@ -92,3 +97,9 @@ def verify_google_token_view(request_object):
         id_info = verify_google_token(id_token_from_frontend)
         
         return  id_info
+
+def send_user_email(otp , user_email, user_name):
+    subject = "OTP for your account"
+    message = f"Hi {user_name}, here's your otp for registering  your account \n\n {otp} "
+    recipient_list = [user_email]
+    send_mail(subject,message,EMAIL_HOST_USER,recipient_list,fail_silently=False)

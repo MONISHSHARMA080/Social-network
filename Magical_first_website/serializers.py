@@ -1,3 +1,4 @@
+import pyotp
 from rest_framework import serializers
 from Magical_first_website.models import User_in_magical_website 
 from Magical_first_website.views.views import verify_google_token 
@@ -6,6 +7,9 @@ from django.contrib.auth.hashers import make_password
 import requests
 import base64
 from django.db import IntegrityError
+from datetime import datetime
+from django.core.mail import send_mail
+from project4.settings import EMAIL_HOST_USER
 
 class user_serializer(serializers.ModelSerializer):
     id_token = serializers.CharField(write_only=True,max_length=None, min_length=10, allow_blank=False, trim_whitespace=True) 
@@ -49,13 +53,19 @@ class Email_signup_usewr_serializer(serializers.ModelSerializer):
     class Meta:
         model = User_in_magical_website
         # fields = '__all__'
-        exclude = ['groups','user_permissions' , 'verified_through_auth_provider','email_verified','registered_date',]
+        exclude = ['groups','user_permissions' , 'verified_through_auth_provider','email_verified','registered_date','otp','otp_created_at']
         
     def create(self, validated_data):
         # when if we have validated data just take it and just  hash the password(add salt)  before storing it
         validated_data['password'] =  make_password(validated_data.get('password'))
+        totp = pyotp.TOTP(pyotp.random_base32())
+        otp = totp.now()
+        validated_data['otp'] =  otp
+        validated_data['otp_created_at'] = datetime.now()
+        validated_data['verified_through_auth_provider'] = False
+        validated_data['email_verified'] = False
+        
         # setting the email verified to be false by default here --not as it is set by defalut
-        super().create(validated_data)
         try :
             super().create(validated_data)
         except IntegrityError as e: 
@@ -63,9 +73,10 @@ class Email_signup_usewr_serializer(serializers.ModelSerializer):
                     # if the user already exists just return it from there 
                     return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data) 
         validated_data.pop('password')
-        validated_data['verified_through_auth_provider'] = False
-        validated_data['email_verified'] = False
-        return {"status":200,"message":validated_data}
+        
+        send_user_email(otp, validated_data.get('email'), validated_data.get('name'))
+
+        return {"status":200,"message":validated_data,"check_email_for_otp":True}
         
 class Spotify_signup_user_serializer(serializers.ModelSerializer):
     id_token = serializers.CharField(write_only=True,max_length=None, min_length=10, allow_blank=False, trim_whitespace=True) 
@@ -157,3 +168,18 @@ def return_already_existing_user_from_db_in_IntegrityError_of_unique_field(valid
                 "name": existing_user.name
             }
     
+def send_user_email(otp, user_email, user_name):
+    subject = "OTP for your account"
+    # HTML formatted message to make the top section bigger
+    message = f"""
+    <html>
+    <head></head>
+    <body>
+        <h1 style="font-size: 24px;">Hi {user_name},</h1>
+        <p><h3>Here's your OTP for your account verification:</h3></p>
+        <h1 style="font-size: 36px;">{otp}</h1>
+    </body>
+    </html>
+    """
+    recipient_list = [user_email]
+    send_mail(subject, "", EMAIL_HOST_USER, recipient_list, html_message=message, fail_silently=False)

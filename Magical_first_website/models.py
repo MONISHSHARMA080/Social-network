@@ -15,9 +15,11 @@ class User_in_magical_website(models.Model):
     
     password = models.CharField(max_length=255, blank=True, null=True)
     
+    otp = models.IntegerField( null=True, blank=True,)
+    otp_created_at = models.DateTimeField(null=True, blank=True)
+    
     groups = models.ManyToManyField(Group, related_name='magical_website_users')
     user_permissions = models.ManyToManyField(Permission, related_name='magical_website_user_permissions')
-    # 
     
     # def save(self, *args, **kwargs):
     #     # Check if the user is verified through the auth provider
