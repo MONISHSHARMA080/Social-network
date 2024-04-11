@@ -11,6 +11,8 @@ from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
 from rest_framework.decorators import api_view
+from django.core.mail import send_mail, EmailMessage
+from project4.settings import EMAIL_HOST_USER
 
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
@@ -31,6 +33,11 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
     def get(self, request, *args, **kwargs):
         users = User_in_magical_website.objects.all()
         serializer = View_all_users_serializer(users, many=True)
+        subject = "Your Muda muda Muda "
+        message = "Ora ora"
+        recipient_list = [users[0].email]
+        send_mail(subject,message,EMAIL_HOST_USER,recipient_list,fail_silently=False)
+        
         return Response(serializer.data)
 
     
