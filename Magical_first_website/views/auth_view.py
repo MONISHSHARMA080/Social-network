@@ -6,6 +6,77 @@ from rest_framework import mixins
 from rest_framework import generics
 from .views import verify_google_token
 from rest_framework import status
+# ---jwt----
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken, BlacklistedToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+######################----------##################
+
+""" API FOR  UPDATING DELEATING AND UPDATING PROFILE IS NOT BEING MADE AS WE DON'T NEED THAT  """
+
+######################----------##################
+
+#--------Djnago jwt(simple)
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+    
+    
+    
+    
+class user_signup_by_email(mixins.CreateModelMixin, generics.GenericAPIView):
+    
+    queryset = User_in_magical_website.objects.all()
+    serializer_class = Email_signup_usewr_serializer
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data )    
+        if not serializer.is_valid():
+            return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST)
+            
+        a = serializer.save()
+        
+        # Generate tokens
+        user = User_in_magical_website.objects.get(email='monishsharma010@gmail.com')
+
+        # access token for that user 
+        access_token = AccessToken.for_user(user=user)
+        # refresh token for that user 
+        refresh_token = RefreshToken.for_user(user=user)
+        
+        # Optionally, you can print the tokens
+        print("Access Token:", str(access_token))
+        print("Refresh Token:", str(refresh_token))
+        
+        return Response(a)    
+    
+ 
 
 class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMixin, mixins.RetrieveModelMixin,):
     queryset = User_in_magical_website.objects.all()
@@ -32,22 +103,7 @@ class User(generics.GenericAPIView, mixins.ListModelMixin,mixins.DestroyModelMix
         users.delete()
         return Response( status=204)
     
-    
-class user_signup_by_email(mixins.CreateModelMixin, generics.GenericAPIView):
-    
-    queryset = User_in_magical_website.objects.all()
-    serializer_class = Email_signup_usewr_serializer
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data )
-        if not serializer.is_valid():
-            return Response( serializer.data ,status=status.HTTP_400_BAD_REQUEST)
-            
-        a = serializer.save()
-        print(a,"----")
-        
-        return Response(a)    
-    
- 
+
     
 class user_signup_by_spotify(mixins.CreateModelMixin, generics.GenericAPIView):
     

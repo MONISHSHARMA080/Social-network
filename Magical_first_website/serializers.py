@@ -83,8 +83,8 @@ class user_serializer(serializers.ModelSerializer):
             except IntegrityError as e: 
                 if 'UNIQUE constraint' in str(e):
                     # if the user already exists just return it from there 
-                    return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data)                    
-            return {"status":response_from_google_auth_function.get('status'),"message":validated_data}
+                    return return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data)                    
+            return {"status":response_from_google_auth_function.get('status'),"user":validated_data}
    
 class View_all_users_serializer(serializers.ModelSerializer):
     class Meta:
@@ -114,7 +114,7 @@ class Email_signup_usewr_serializer(serializers.ModelSerializer):
         except IntegrityError as e: 
                 if 'UNIQUE constraint' in str(e):
                     # if the user already exists just return it from there 
-                    return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data) 
+                    return return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data) 
         validated_data.pop('password')
         
         send_user_email(otp, validated_data.get('email'), validated_data.get('name'))
@@ -169,7 +169,7 @@ class Spotify_signup_user_serializer(serializers.ModelSerializer):
                 except IntegrityError as e: 
                     if 'UNIQUE constraint' in str(e):
                     # if the user already exists just return it from there 
-                        return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data) 
+                        return return_already_existing_user_from_db_in_IntegrityError_of_unique_field(validated_data) 
                 # trying to return images inside  response ,a nd handeling the case of what to do if it is not there 
                 if images:
                     validated_data['profile_picture_url'] = images[0].get('url')
@@ -177,7 +177,7 @@ class Spotify_signup_user_serializer(serializers.ModelSerializer):
                     validated_data['profile_picture_url'] = ""
                 return {"status":status_code_to_send_in_response,"message_to_display_user": "Your email has been verified , welcome onboard","message":"You are now verified","user":validated_data }
             else:
-                return {"status":response.status_code,"message_to_display_user": "We can't verify you ","message":"error during spotify api depth 2","user":validated_data} 
+                return {"status":response.status_code,"message_to_display_user": "We can't verify you ,Please retry or try a different auth provider  ","message":"error during spotify api depth 2","user":validated_data} 
 
         else:
             if response.json().get('error_description') == "Invalid authorization code":
